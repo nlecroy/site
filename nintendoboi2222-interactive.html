@@ -1,0 +1,2209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ilan's Cool Game Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 30px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 30px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1em;
+        }
+
+        .tab-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .tab-btn.active {
+            background: #764ba2;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Authentication Section */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            padding: 20px;
+        }
+
+        .auth-box {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .auth-box h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .auth-box #authSubtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .auth-submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .auth-submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .auth-toggle {
+            margin-top: 20px;
+            text-align: center;
+            color: #666;
+        }
+
+        .auth-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        .user-profile {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 450px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .user-profile h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .profile-info {
+            margin: 30px 0;
+        }
+
+        .profile-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .profile-info h3 {
+            color: #333;
+            font-size: 1.3em;
+        }
+
+        .profile-message {
+            color: #666;
+            margin: 20px 0 30px;
+            font-size: 1.1em;
+        }
+
+        .logout-btn {
+            padding: 12px 30px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #d32f2f;
+        }
+
+        .locked-message {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        /* Chatroom Styles */
+        .chatroom-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 1000px;
+            margin: 0 auto;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chatroom-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .online-users {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .message-user {
+            font-weight: bold;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .online-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4CAF50;
+            display: inline-block;
+        }
+
+        .offline-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #999;
+            display: inline-block;
+        }
+
+        .message-time {
+            font-size: 0.8em;
+            color: #999;
+        }
+
+        .message-text {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: white;
+            border-radius: 0 0 12px 12px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Admin Panel Styles */
+        .admin-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        .admin-header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .admin-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .admin-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .announcement-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            min-height: 100px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .announcement-input:focus {
+            outline: none;
+            border-color: #ff6b6b;
+        }
+
+        .admin-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .admin-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .clear-btn {
+            background: #f44336;
+            margin-left: 10px;
+        }
+
+        /* Announcement Banner */
+        .announcement-banner {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4);
+            animation: pulse 2s infinite;
+            border: 3px solid #FF8C00;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 4px 12px rgba(255, 165, 0, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(255, 165, 0, 0.8);
+            }
+        }
+
+        .announcement-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .announcement-icon {
+            font-size: 1.5em;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .announcement-text {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .announcement-close {
+            background: rgba(0,0,0,0.2);
+            border: none;
+            color: #000;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            float: right;
+            font-weight: bold;
+        }
+
+        .announcement-close:hover {
+            background: rgba(0,0,0,0.3);
+        }
+
+        /* Admin Badge */
+        .admin-badge {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 4px rgba(255, 107, 107, 0.3);
+        }
+
+        /* Ban message */
+        .ban-notice {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .ban-notice h3 {
+            color: #f44336;
+            margin-bottom: 10px;
+        }
+
+        .ban-timer {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #f44336;
+            margin: 10px 0;
+        }
+
+        /* Ban list styles */
+        .ban-list {
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .ban-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #f5f5f5;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .unban-btn {
+            padding: 5px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .unban-btn:hover {
+            background: #45a049;
+        }
+
+        .word-ban-list {
+            max-height: 150px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .word-ban-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: #fff3cd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .remove-word-btn {
+            padding: 3px 10px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .remove-word-btn:hover {
+            background: #d32f2f;
+        }
+
+        /* Device verification modal */
+        .verification-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .verification-modal.active {
+            display: flex;
+        }
+
+        .verification-box {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .verification-box h2 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+        }
+
+        /* Games Section */
+        .games-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .search-bar {
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: #764ba2;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .game-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+
+        .game-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .game-name {
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        /* Game Player Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 95%;
+            height: 90%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        .close-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .modal-body {
+            flex: 1;
+            position: relative;
+        }
+
+        .game-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Category filters */
+        .category-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: #f0f0f0;
+            border: 2px solid transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            opacity: 0.8;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .repos-grid,
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎮 Ilan's Cool Game Website</h1>
+            <p>Browse & Play Games</p>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="switchTab('account')">👤 Account</button>
+            <button class="tab-btn" onclick="switchTab('games')">🎮 Play Games</button>
+            <button class="tab-btn" onclick="switchTab('chatroom')">💬 Chatroom</button>
+            <button class="tab-btn" id="adminTab" onclick="switchTab('admin')" style="display: none;">⚙️ Admin</button>
+        </div>
+
+        <!-- Announcement Banner -->
+        <div class="announcement-banner" id="announcementBanner" style="display: none;">
+            <button class="announcement-close" onclick="dismissAnnouncement()">✕</button>
+            <div class="announcement-header">
+                <span class="announcement-icon">📢</span>
+                <span>ANNOUNCEMENT</span>
+            </div>
+            <div class="announcement-text" id="announcementText"></div>
+        </div>
+
+        <!-- Account Tab -->
+        <div id="account" class="tab-content active">
+            <div class="auth-container">
+                <div class="auth-box" id="authBox">
+                    <h2 id="authTitle">Sign In</h2>
+                    <p id="authSubtitle">Sign in to access the games</p>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" placeholder="Enter your email">
+                    </div>
+                    
+                    <div class="form-group" id="usernameGroup" style="display: none;">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Choose a username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password">
+                    </div>
+                    
+                    <button class="auth-submit-btn" id="authSubmitBtn" onclick="handleAuth()">Sign In</button>
+                    
+                    <div class="auth-toggle">
+                        <p id="toggleText">Don't have an account? <span class="auth-link" onclick="toggleAuthMode()">Create one</span></p>
+                    </div>
+                </div>
+                
+                <div class="user-profile" id="userProfile" style="display: none;">
+                    <h2>Welcome Back!</h2>
+                    <div class="profile-info">
+                        <div class="profile-icon">👤</div>
+                        <h3 id="userUsername"></h3>
+                        <p style="color: #999; font-size: 0.9em;" id="userEmail"></p>
+                    </div>
+                    <p class="profile-message">You're signed in and ready to play games!</p>
+                    <button class="logout-btn" onclick="logout()">Sign Out</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Games Tab -->
+        <div id="games" class="tab-content">
+            <div class="locked-message" id="gamesLocked">
+                <h2>🔒 Sign In Required</h2>
+                <p>Please sign in to access the games library</p>
+            </div>
+            
+            <div class="games-container" id="gamesContent" style="display: none;">
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="gameSearch" placeholder="🔍 Search for a game..." onkeyup="filterGames()">
+                </div>
+
+                <div class="category-filters">
+                    <button class="filter-btn active" onclick="filterByCategory('all')">All Games</button>
+                    <button class="filter-btn" onclick="filterByCategory('action')">Action</button>
+                    <button class="filter-btn" onclick="filterByCategory('sports')">Sports</button>
+                    <button class="filter-btn" onclick="filterByCategory('classic')">Classic</button>
+                </div>
+
+                <div class="games-grid" id="gamesGrid"></div>
+                <div class="no-results" id="noResults" style="display: none;">No games found</div>
+            </div>
+        </div>
+
+        <!-- Chatroom Tab -->
+        <div id="chatroom" class="tab-content">
+            <div class="locked-message" id="chatroomLocked">
+                <h2>🔒 Sign In Required</h2>
+                <p>Please sign in to access the chatroom</p>
+            </div>
+            
+            <div class="chatroom-container" id="chatroomContent" style="display: none;">
+                <div class="chatroom-header">
+                    <h2>💬 Live Chatroom</h2>
+                    <div class="online-users" id="onlineCount">
+                        <span id="onlineUsersText">Online: 0</span>
+                    </div>
+                </div>
+                
+                <div class="ban-notice" id="banNotice" style="display: none; margin: 10px;">
+                    <h3>⛔ You are temporarily banned from chat</h3>
+                    <p>You have been banned for using prohibited language.</p>
+                    <div class="ban-timer" id="banTimer">Time remaining: --:--</div>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div style="text-align: center; color: #999; padding: 20px;">
+                        Welcome to the chatroom! Start chatting below.
+                    </div>
+                </div>
+                
+                <div class="chat-input-container" id="chatInputContainer">
+                    <div class="chat-input-wrapper">
+                        <input type="text" 
+                               class="chat-input" 
+                               id="chatInput" 
+                               placeholder="Type your message..."
+                               onkeypress="handleChatKeyPress(event)">
+                        <button class="send-btn" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Panel Tab -->
+        <div id="admin" class="tab-content">
+            <div class="admin-container">
+                <div class="admin-header">
+                    <h2>⚙️ Admin Panel</h2>
+                    <p>Welcome, Administrator</p>
+                </div>
+
+                <div class="admin-section">
+                    <h3>📢 Post Announcement</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Create an announcement that will be displayed to all users</p>
+                    <textarea 
+                        class="announcement-input" 
+                        id="adminAnnouncementInput" 
+                        placeholder="Type your announcement here..."></textarea>
+                    <button class="admin-btn" onclick="postAnnouncement()">Post Announcement</button>
+                    <button class="admin-btn clear-btn" onclick="clearAnnouncement()">Clear Announcement</button>
+                </div>
+
+                <div class="admin-section">
+                    <h3>📊 Statistics</h3>
+                    <p>Total Users: <strong id="totalUsers">0</strong></p>
+                    <p>Total Messages: <strong id="totalMessages">0</strong></p>
+                    <p>Current Announcement: <span id="currentAnnouncementStatus">None</span></p>
+                </div>
+
+                <div class="admin-section">
+                    <h3>👥 Admin Management</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Grant or revoke admin privileges</p>
+                    <div class="form-group">
+                        <label for="adminEmailInput">User Email</label>
+                        <input type="email" id="adminEmailInput" placeholder="Enter user email">
+                    </div>
+                    <button class="admin-btn" onclick="grantAdminAccess()">Grant Admin Access</button>
+                    <button class="admin-btn clear-btn" onclick="revokeAdminAccess()">Revoke Admin Access</button>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4>Current Admins:</h4>
+                        <div id="adminList" style="margin-top: 10px; padding: 10px; background: white; border-radius: 5px;">
+                            <p style="color: #999;">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <h3>🚫 Word Ban Management</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Ban words that will auto-ban users for 1 hour if used</p>
+                    <div class="form-group">
+                        <label for="bannedWordInput">Word to Ban</label>
+                        <input type="text" id="bannedWordInput" placeholder="Enter word to ban">
+                    </div>
+                    <button class="admin-btn" onclick="addBannedWord()">Add Banned Word</button>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4>Banned Words:</h4>
+                        <div class="word-ban-list" id="bannedWordsList">
+                            <p style="color: #999;">No banned words</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <h3>⛔ User Ban Management</h3>
+                    <p style="color: #666; margin-bottom: 15px;">Manually ban or unban users</p>
+                    <div class="form-group">
+                        <label for="banUserEmail">User Email</label>
+                        <input type="email" id="banUserEmail" placeholder="Enter user email">
+                    </div>
+                    <button class="admin-btn" onclick="banUser()">Ban User (1 Hour)</button>
+                    <button class="admin-btn" onclick="permanentBanUser()" style="background: #000;">Permanent Ban</button>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4>Currently Banned Users:</h4>
+                        <div class="ban-list" id="bannedUsersList">
+                            <p style="color: #999;">No banned users</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Ilan's Cool Game Website • Powered by Nintendoboi2222's game collection</p>
+        </footer>
+    </div>
+
+    <!-- Device Verification Modal -->
+    <div class="verification-modal" id="verificationModal">
+        <div class="verification-box">
+            <h2>🔐 Admin Verification Required</h2>
+            <p style="margin-bottom: 20px;">This device is not recognized. Please enter your password to access admin features.</p>
+            <div class="form-group">
+                <label for="verifyPassword">Password</label>
+                <input type="password" id="verifyPassword" placeholder="Enter admin password">
+            </div>
+            <button class="admin-btn" onclick="verifyAdminDevice()" style="width: 100%; margin-top: 10px;">Verify</button>
+            <button class="admin-btn" onclick="cancelVerification()" style="width: 100%; margin-top: 10px; background: #999;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Game Player Modal -->
+    <div class="modal" id="gameModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalGameName">Game</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button class="close-btn" onclick="openInNewTab()" style="background: #4CAF50;">🔗 Open in New Tab</button>
+                    <button class="close-btn" onclick="closeGame()">✕ Close</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <iframe class="game-iframe" id="gameFrame" src="" 
+                        sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-top-navigation-by-user-activation"
+                        allowfullscreen
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Admin configuration
+        const ADMIN_EMAIL = 'ilandaman69@gmail.com';
+        let isAdminVerified = false;
+        let deviceId = null;
+
+        // Generate or retrieve device ID
+        function getDeviceId() {
+            let id = localStorage.getItem('deviceId');
+            if (!id) {
+                id = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('deviceId', id);
+            }
+            return id;
+        }
+
+        // Check if current device is verified for admin
+        function isDeviceVerified() {
+            deviceId = getDeviceId();
+            const verifiedDevices = JSON.parse(localStorage.getItem('adminVerifiedDevices') || '[]');
+            return verifiedDevices.includes(deviceId);
+        }
+
+        // Check if user is super admin (the original admin)
+        function isSuperAdmin() {
+            return currentUser && currentUser.email === ADMIN_EMAIL;
+        }
+
+        // Check if user has been granted admin access
+        function isGrantedAdmin() {
+            if (!currentUser) return false;
+            const grantedAdmins = JSON.parse(localStorage.getItem('grantedAdmins') || '[]');
+            return grantedAdmins.includes(currentUser.email);
+        }
+
+        // Check if user is admin (either super admin or granted)
+        function isAdmin() {
+            return isSuperAdmin() || isGrantedAdmin();
+        }
+
+        // Grant admin access to a user
+        function grantAdminAccess() {
+            const email = document.getElementById('adminEmailInput').value.trim();
+            
+            if (!email) {
+                alert('Please enter a user email.');
+                return;
+            }
+            
+            // Check if user exists
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email);
+            
+            if (!user) {
+                alert('No user found with that email address.');
+                return;
+            }
+            
+            if (email === ADMIN_EMAIL) {
+                alert('This user is already the super admin.');
+                return;
+            }
+            
+            // Add to granted admins
+            const grantedAdmins = JSON.parse(localStorage.getItem('grantedAdmins') || '[]');
+            if (grantedAdmins.includes(email)) {
+                alert('This user already has admin access.');
+                return;
+            }
+            
+            grantedAdmins.push(email);
+            localStorage.setItem('grantedAdmins', JSON.stringify(grantedAdmins));
+            
+            document.getElementById('adminEmailInput').value = '';
+            updateAdminList();
+            updateAdminStats();
+            
+            alert(`Admin access granted to ${user.username} (${email})`);
+        }
+
+        // Revoke admin access from a user
+        function revokeAdminAccess() {
+            const email = document.getElementById('adminEmailInput').value.trim();
+            
+            if (!email) {
+                alert('Please enter a user email.');
+                return;
+            }
+            
+            if (email === ADMIN_EMAIL) {
+                alert('Cannot revoke access from the super admin.');
+                return;
+            }
+            
+            const grantedAdmins = JSON.parse(localStorage.getItem('grantedAdmins') || '[]');
+            const index = grantedAdmins.indexOf(email);
+            
+            if (index === -1) {
+                alert('This user does not have admin access.');
+                return;
+            }
+            
+            grantedAdmins.splice(index, 1);
+            localStorage.setItem('grantedAdmins', JSON.stringify(grantedAdmins));
+            
+            document.getElementById('adminEmailInput').value = '';
+            updateAdminList();
+            updateAdminStats();
+            
+            alert(`Admin access revoked from ${email}`);
+        }
+
+        // Update the admin list display
+        function updateAdminList() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const grantedAdmins = JSON.parse(localStorage.getItem('grantedAdmins') || '[]');
+            const adminListEl = document.getElementById('adminList');
+            
+            let admins = [];
+            
+            // Add super admin
+            const superAdmin = users.find(u => u.email === ADMIN_EMAIL);
+            if (superAdmin) {
+                admins.push(`<p><strong>${superAdmin.username}</strong> (${ADMIN_EMAIL}) - Super Admin</p>`);
+            } else {
+                admins.push(`<p><strong>${ADMIN_EMAIL}</strong> - Super Admin (Not registered)</p>`);
+            }
+            
+            // Add granted admins
+            grantedAdmins.forEach(email => {
+                const user = users.find(u => u.email === email);
+                if (user) {
+                    admins.push(`<p><strong>${user.username}</strong> (${email})</p>`);
+                } else {
+                    admins.push(`<p>${email} (User not found)</p>`);
+                }
+            });
+            
+            if (admins.length === 0) {
+                adminListEl.innerHTML = '<p style="color: #999;">No admins</p>';
+            } else {
+                adminListEl.innerHTML = admins.join('');
+            }
+        }
+
+        // Word ban management
+        function addBannedWord() {
+            const word = document.getElementById('bannedWordInput').value.trim().toLowerCase();
+            
+            if (!word) {
+                alert('Please enter a word to ban.');
+                return;
+            }
+            
+            const bannedWords = JSON.parse(localStorage.getItem('bannedWords') || '[]');
+            
+            if (bannedWords.includes(word)) {
+                alert('This word is already banned.');
+                return;
+            }
+            
+            bannedWords.push(word);
+            localStorage.setItem('bannedWords', JSON.stringify(bannedWords));
+            
+            document.getElementById('bannedWordInput').value = '';
+            updateBannedWordsList();
+            
+            alert(`Word "${word}" has been banned.`);
+        }
+
+        function removeBannedWord(word) {
+            const bannedWords = JSON.parse(localStorage.getItem('bannedWords') || '[]');
+            const index = bannedWords.indexOf(word);
+            
+            if (index > -1) {
+                bannedWords.splice(index, 1);
+                localStorage.setItem('bannedWords', JSON.stringify(bannedWords));
+                updateBannedWordsList();
+            }
+        }
+
+        function updateBannedWordsList() {
+            const bannedWords = JSON.parse(localStorage.getItem('bannedWords') || '[]');
+            const listEl = document.getElementById('bannedWordsList');
+            
+            if (bannedWords.length === 0) {
+                listEl.innerHTML = '<p style="color: #999;">No banned words</p>';
+                return;
+            }
+            
+            listEl.innerHTML = bannedWords.map(word => `
+                <div class="word-ban-item">
+                    <span>${word}</span>
+                    <button class="remove-word-btn" onclick="removeBannedWord('${word}')">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        // User ban management
+        function banUser() {
+            const email = document.getElementById('banUserEmail').value.trim();
+            
+            if (!email) {
+                alert('Please enter a user email.');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email);
+            
+            if (!user) {
+                alert('No user found with that email.');
+                return;
+            }
+            
+            const bannedUsers = JSON.parse(localStorage.getItem('bannedUsers') || '{}');
+            const banUntil = Date.now() + (60 * 60 * 1000); // 1 hour from now
+            
+            bannedUsers[email] = {
+                bannedAt: Date.now(),
+                banUntil: banUntil,
+                permanent: false,
+                reason: 'Manual ban by admin'
+            };
+            
+            localStorage.setItem('bannedUsers', JSON.stringify(bannedUsers));
+            document.getElementById('banUserEmail').value = '';
+            updateBannedUsersList();
+            
+            alert(`${user.username} has been banned for 1 hour.`);
+        }
+
+        function permanentBanUser() {
+            const email = document.getElementById('banUserEmail').value.trim();
+            
+            if (!email) {
+                alert('Please enter a user email.');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email);
+            
+            if (!user) {
+                alert('No user found with that email.');
+                return;
+            }
+            
+            if (!confirm(`Are you sure you want to PERMANENTLY ban ${user.username}?`)) {
+                return;
+            }
+            
+            const bannedUsers = JSON.parse(localStorage.getItem('bannedUsers') || '{}');
+            
+            bannedUsers[email] = {
+                bannedAt: Date.now(),
+                banUntil: null,
+                permanent: true,
+                reason: 'Permanent ban by admin'
+            };
+            
+            localStorage.setItem('bannedUsers', JSON.stringify(bannedUsers));
+            document.getElementById('banUserEmail').value = '';
+            updateBannedUsersList();
+            
+            alert(`${user.username} has been permanently banned.`);
+        }
+
+        function unbanUser(email) {
+            const bannedUsers = JSON.parse(localStorage.getItem('bannedUsers') || '{}');
+            
+            if (bannedUsers[email]) {
+                delete bannedUsers[email];
+                localStorage.setItem('bannedUsers', JSON.stringify(bannedUsers));
+                updateBannedUsersList();
+                alert('User has been unbanned.');
+            }
+        }
+
+        function updateBannedUsersList() {
+            const bannedUsers = JSON.parse(localStorage.getItem('bannedUsers') || '{}');
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const listEl = document.getElementById('bannedUsersList');
+            
+            // Clean up expired bans
+            const now = Date.now();
+            Object.keys(bannedUsers).forEach(email => {
+                const ban = bannedUsers[email];
+                if (!ban.permanent && ban.banUntil && now > ban.banUntil) {
+                    delete bannedUsers[email];
+                }
+            });
+            localStorage.setItem('bannedUsers', JSON.stringify(bannedUsers));
+            
+            const bannedEmails = Object.keys(bannedUsers);
+            
+            if (bannedEmails.length === 0) {
+                listEl.innerHTML = '<p style="color: #999;">No banned users</p>';
+                return;
+            }
+            
+            listEl.innerHTML = bannedEmails.map(email => {
+                const ban = bannedUsers[email];
+                const user = users.find(u => u.email === email);
+                const username = user ? user.username : email;
+                const banType = ban.permanent ? 'PERMANENT' : 'Temporary';
+                const timeLeft = ban.permanent ? '' : ` (${Math.ceil((ban.banUntil - now) / 60000)} min left)`;
+                
+                return `
+                    <div class="ban-item">
+                        <div>
+                            <strong>${username}</strong> (${email})<br>
+                            <small>${banType}${timeLeft}</small>
+                        </div>
+                        <button class="unban-btn" onclick="unbanUser('${email}')">Unban</button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Check if user is banned
+        function isUserBanned(email) {
+            const bannedUsers = JSON.parse(localStorage.getItem('bannedUsers') || '{}');
+            
+            if (!bannedUsers[email]) return false;
+            
+            const ban = bannedUsers[email];
+            
+            // Permanent ban
+            if (ban.permanent) return true;
+            
+            // Temporary ban - check if expired
+            if (Date.now() > ban.banUntil) {
+                delete bannedUsers[email];
+                localStorage.setItem('bannedUsers', JSON.stringify(bannedUsers));
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Check message for banned words
+        function containsBannedWord(message) {
+            const bannedWords = JSON.parse(localStorage.getItem('bannedWords') || '[]');
+            const messageLower = message.toLowerCase();
+            
+            for (let word of bannedWords) {
+                if (messageLower.includes(word)) {
+                    return word;
+                }
+            }
+            return null;
+        }
+
+        // Update ban timer display
+        function updateBanTimer() {
+            if (!currentUser) return;
+            
+            const bannedUsers = JSON.parse(localStorage.getItem('bannedUsers') || '{}');
+            const ban = bannedUsers[currentUser.email];
+            
+            if (!ban) {
+                document.getElementById('banNotice').style.display = 'none';
+                document.getElementById('chatInputContainer').style.display = 'block';
+                return;
+            }
+            
+            if (ban.permanent) {
+                document.getElementById('banNotice').style.display = 'block';
+                document.getElementById('chatInputContainer').style.display = 'none';
+                document.getElementById('banTimer').textContent = 'PERMANENT BAN';
+                return;
+            }
+            
+            const timeLeft = ban.banUntil - Date.now();
+            
+            if (timeLeft <= 0) {
+                delete bannedUsers[currentUser.email];
+                localStorage.setItem('bannedUsers', JSON.stringify(bannedUsers));
+                document.getElementById('banNotice').style.display = 'none';
+                document.getElementById('chatInputContainer').style.display = 'block';
+                return;
+            }
+            
+            const minutes = Math.floor(timeLeft / 60000);
+            const seconds = Math.floor((timeLeft % 60000) / 1000);
+            
+            document.getElementById('banNotice').style.display = 'block';
+            document.getElementById('chatInputContainer').style.display = 'none';
+            document.getElementById('banTimer').textContent = `Time remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Show admin verification modal
+        function showAdminVerification() {
+            document.getElementById('verificationModal').classList.add('active');
+        }
+
+        // Verify admin device
+        function verifyAdminDevice() {
+            const password = document.getElementById('verifyPassword').value.trim();
+            
+            if (!password) {
+                alert('Please enter your password.');
+                return;
+            }
+            
+            // Check password against stored user data
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const adminUser = users.find(u => u.email === ADMIN_EMAIL);
+            
+            if (adminUser && adminUser.password === password) {
+                // Add this device to verified devices
+                const verifiedDevices = JSON.parse(localStorage.getItem('adminVerifiedDevices') || '[]');
+                if (!verifiedDevices.includes(deviceId)) {
+                    verifiedDevices.push(deviceId);
+                    localStorage.setItem('adminVerifiedDevices', JSON.stringify(verifiedDevices));
+                }
+                
+                isAdminVerified = true;
+                document.getElementById('verificationModal').classList.remove('active');
+                document.getElementById('verifyPassword').value = '';
+                
+                // Show admin tab and switch to it
+                document.getElementById('adminTab').style.display = 'block';
+                updateAdminStats();
+                
+                alert('Device verified! You now have admin access.');
+            } else {
+                alert('Incorrect password. Please try again.');
+            }
+        }
+
+        // Cancel verification
+        function cancelVerification() {
+            document.getElementById('verificationModal').classList.remove('active');
+            document.getElementById('verifyPassword').value = '';
+        }
+
+        // Post announcement
+        function postAnnouncement() {
+            const text = document.getElementById('adminAnnouncementInput').value.trim();
+            
+            if (!text) {
+                alert('Please enter an announcement message.');
+                return;
+            }
+            
+            const announcement = {
+                text: text,
+                timestamp: Date.now(),
+                author: currentUser.email
+            };
+            
+            localStorage.setItem('siteAnnouncement', JSON.stringify(announcement));
+            document.getElementById('adminAnnouncementInput').value = '';
+            
+            showAnnouncement();
+            updateAdminStats();
+            
+            alert('Announcement posted successfully!');
+        }
+
+        // Clear announcement
+        function clearAnnouncement() {
+            if (confirm('Are you sure you want to clear the current announcement?')) {
+                localStorage.removeItem('siteAnnouncement');
+                localStorage.removeItem('announcementDismissed');
+                hideAnnouncement();
+                updateAdminStats();
+                alert('Announcement cleared.');
+            }
+        }
+
+        // Show announcement
+        function showAnnouncement() {
+            const announcement = JSON.parse(localStorage.getItem('siteAnnouncement') || 'null');
+            const dismissed = localStorage.getItem('announcementDismissed');
+            
+            if (announcement && !dismissed) {
+                document.getElementById('announcementText').textContent = announcement.text;
+                document.getElementById('announcementBanner').style.display = 'block';
+            }
+        }
+
+        // Hide announcement
+        function hideAnnouncement() {
+            document.getElementById('announcementBanner').style.display = 'none';
+        }
+
+        // Dismiss announcement
+        function dismissAnnouncement() {
+            localStorage.setItem('announcementDismissed', 'true');
+            hideAnnouncement();
+        }
+
+        // Update admin statistics
+        function updateAdminStats() {
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+            const announcement = JSON.parse(localStorage.getItem('siteAnnouncement') || 'null');
+            
+            document.getElementById('totalUsers').textContent = users.length;
+            document.getElementById('totalMessages').textContent = messages.length;
+            document.getElementById('currentAnnouncementStatus').textContent = announcement ? 'Active' : 'None';
+            
+            updateAdminList();
+            updateBannedWordsList();
+            updateBannedUsersList();
+        }
+
+        // Authentication State
+        let isSignUp = false;
+        let currentUser = null;
+        let isTabActive = true;
+        let heartbeatInterval = null;
+        let checkMessagesInterval = null;
+
+        // Track if tab is active
+        document.addEventListener('visibilitychange', function() {
+            isTabActive = !document.hidden;
+            if (currentUser) {
+                updateOnlineStatus();
+            }
+        });
+
+        // Track window focus
+        window.addEventListener('focus', function() {
+            isTabActive = true;
+            if (currentUser) {
+                updateOnlineStatus();
+            }
+        });
+
+        window.addEventListener('blur', function() {
+            isTabActive = false;
+            if (currentUser) {
+                updateOnlineStatus();
+            }
+        });
+
+        // Check if user is already logged in on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showUserProfile();
+                startChatroom();
+                
+                // Check if admin (super admin or granted admin)
+                if (isSuperAdmin()) {
+                    if (isDeviceVerified()) {
+                        isAdminVerified = true;
+                        document.getElementById('adminTab').style.display = 'block';
+                        updateAdminStats();
+                    } else {
+                        showAdminVerification();
+                    }
+                } else if (isGrantedAdmin()) {
+                    isAdminVerified = true;
+                    document.getElementById('adminTab').style.display = 'block';
+                    updateAdminStats();
+                }
+            }
+            
+            // Show announcement if exists
+            showAnnouncement();
+        });
+
+        // Update online status
+        function updateOnlineStatus() {
+            if (!currentUser) return;
+            
+            const onlineUsers = JSON.parse(localStorage.getItem('onlineUsers') || '{}');
+            
+            if (isTabActive) {
+                onlineUsers[currentUser.email] = {
+                    email: currentUser.email,
+                    lastSeen: Date.now(),
+                    status: 'online'
+                };
+            } else {
+                if (onlineUsers[currentUser.email]) {
+                    onlineUsers[currentUser.email].status = 'away';
+                    onlineUsers[currentUser.email].lastSeen = Date.now();
+                }
+            }
+            
+            localStorage.setItem('onlineUsers', JSON.stringify(onlineUsers));
+            updateOnlineCount();
+        }
+
+        // Clean up stale users (offline for more than 30 seconds)
+        function cleanupStaleUsers() {
+            const onlineUsers = JSON.parse(localStorage.getItem('onlineUsers') || '{}');
+            const now = Date.now();
+            let changed = false;
+            
+            Object.keys(onlineUsers).forEach(email => {
+                if (now - onlineUsers[email].lastSeen > 30000) {
+                    delete onlineUsers[email];
+                    changed = true;
+                }
+            });
+            
+            if (changed) {
+                localStorage.setItem('onlineUsers', JSON.stringify(onlineUsers));
+                updateOnlineCount();
+            }
+        }
+
+        // Update online user count
+        function updateOnlineCount() {
+            const onlineUsers = JSON.parse(localStorage.getItem('onlineUsers') || '{}');
+            const activeUsers = Object.values(onlineUsers).filter(u => u.status === 'online');
+            document.getElementById('onlineUsersText').textContent = `Online: ${activeUsers.length}`;
+        }
+
+        // Start chatroom functionality
+        function startChatroom() {
+            // Send heartbeat every 5 seconds
+            heartbeatInterval = setInterval(() => {
+                updateOnlineStatus();
+                cleanupStaleUsers();
+                updateBanTimer();
+            }, 5000);
+
+            // Check for new messages every 2 seconds
+            checkMessagesInterval = setInterval(() => {
+                loadMessages();
+            }, 2000);
+
+            // Initial load
+            loadMessages();
+            updateOnlineStatus();
+            updateBanTimer();
+        }
+
+        // Stop chatroom functionality
+        function stopChatroom() {
+            if (heartbeatInterval) {
+                clearInterval(heartbeatInterval);
+                heartbeatInterval = null;
+            }
+            if (checkMessagesInterval) {
+                clearInterval(checkMessagesInterval);
+                checkMessagesInterval = null;
+            }
+            
+            // Remove from online users
+            const onlineUsers = JSON.parse(localStorage.getItem('onlineUsers') || '{}');
+            if (currentUser && onlineUsers[currentUser.email]) {
+                delete onlineUsers[currentUser.email];
+                localStorage.setItem('onlineUsers', JSON.stringify(onlineUsers));
+            }
+        }
+
+        // Send message
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message || !currentUser) return;
+            
+            // Check if user is banned
+            if (isUserBanned(currentUser.email)) {
+                alert('You are banned from the chat.');
+                return;
+            }
+            
+            // Check for banned words
+            const bannedWord = containsBannedWord(message);
+            if (bannedWord) {
+                // Auto-ban user for 1 hour
+                const bannedUsers = JSON.parse(localStorage.getItem('bannedUsers') || '{}');
+                bannedUsers[currentUser.email] = {
+                    bannedAt: Date.now(),
+                    banUntil: Date.now() + (60 * 60 * 1000),
+                    permanent: false,
+                    reason: `Used banned word: ${bannedWord}`
+                };
+                localStorage.setItem('bannedUsers', JSON.stringify(bannedUsers));
+                
+                updateBanTimer();
+                alert(`You have been banned for 1 hour for using the word "${bannedWord}".`);
+                input.value = '';
+                return;
+            }
+            
+            const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+            
+            const newMessage = {
+                id: Date.now(),
+                user: currentUser.email,
+                text: message,
+                timestamp: Date.now()
+            };
+            
+            messages.push(newMessage);
+            
+            // Keep only last 100 messages
+            if (messages.length > 100) {
+                messages.shift();
+            }
+            
+            localStorage.setItem('chatMessages', JSON.stringify(messages));
+            
+            input.value = '';
+            loadMessages();
+        }
+
+        // Handle Enter key in chat input
+        function handleChatKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Load and display messages
+        function loadMessages() {
+            const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
+            const onlineUsers = JSON.parse(localStorage.getItem('onlineUsers') || '{}');
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const grantedAdmins = JSON.parse(localStorage.getItem('grantedAdmins') || '[]');
+            const container = document.getElementById('chatMessages');
+            
+            if (messages.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">Welcome to the chatroom! Start chatting below.</div>';
+                return;
+            }
+            
+            container.innerHTML = messages.map(msg => {
+                const isOnline = onlineUsers[msg.user] && onlineUsers[msg.user].status === 'online';
+                const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                // Get username from email
+                const user = users.find(u => u.email === msg.user);
+                const displayName = user ? user.username : msg.user;
+                
+                // Check if user is admin
+                const isAdmin = msg.user === ADMIN_EMAIL || grantedAdmins.includes(msg.user);
+                const adminBadge = isAdmin ? '<span class="admin-badge">ADMIN</span>' : '';
+                
+                return `
+                    <div class="message">
+                        <div class="message-header">
+                            <div class="message-user">
+                                <span class="${isOnline ? 'online-indicator' : 'offline-indicator'}"></span>
+                                ${escapeHtml(displayName)}${adminBadge}
+                            </div>
+                            <div class="message-time">${time}</div>
+                        </div>
+                        <div class="message-text">${escapeHtml(msg.text)}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Auto-scroll to bottom
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function toggleAuthMode() {
+            isSignUp = !isSignUp;
+            
+            console.log('Toggle auth mode, isSignUp now:', isSignUp);
+            
+            const authTitle = document.getElementById('authTitle');
+            const authSubtitle = document.getElementById('authSubtitle');
+            const authSubmitBtn = document.getElementById('authSubmitBtn');
+            const toggleText = document.getElementById('toggleText');
+            const usernameGroup = document.getElementById('usernameGroup');
+            
+            if (isSignUp) {
+                authTitle.textContent = 'Create Account';
+                authSubtitle.textContent = 'Sign up to start playing games';
+                authSubmitBtn.textContent = 'Create Account';
+                toggleText.innerHTML = 'Already have an account? <span class="auth-link" onclick="toggleAuthMode()">Sign in</span>';
+                usernameGroup.style.display = 'block';
+            } else {
+                authTitle.textContent = 'Sign In';
+                authSubtitle.textContent = 'Sign in to access the games';
+                authSubmitBtn.textContent = 'Sign In';
+                toggleText.innerHTML = 'Don\'t have an account? <span class="auth-link" onclick="toggleAuthMode()">Create one</span>';
+                usernameGroup.style.display = 'none';
+            }
+        }
+
+        function handleAuth() {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const username = document.getElementById('username').value.trim();
+            
+            console.log('handleAuth called, isSignUp:', isSignUp);
+            console.log('Email:', email, 'Password:', password, 'Username:', username);
+            
+            if (!email || !password) {
+                alert('Please enter both email and password.');
+                return;
+            }
+            
+            if (isSignUp) {
+                if (!username) {
+                    alert('Please enter a username.');
+                    return;
+                }
+                
+                // Create new account
+                console.log('Creating account...');
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                
+                // Check if user already exists
+                const existingUser = users.find(u => u.email === email);
+                if (existingUser) {
+                    alert('An account with this email already exists. Please sign in.');
+                    isSignUp = false;
+                    toggleAuthMode();
+                    return;
+                }
+                
+                // Check if username is taken
+                const existingUsername = users.find(u => u.username === username);
+                if (existingUsername) {
+                    alert('This username is already taken. Please choose another.');
+                    return;
+                }
+                
+                // Create new user
+                const newUser = { email, password, username };
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+                console.log('Account created! Users:', users);
+                
+                // Log in the new user
+                currentUser = { email, username };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Clear form
+                document.getElementById('email').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('username').value = '';
+                
+                showUserProfile();
+                
+                // Show success message
+                alert('Account created successfully! Welcome, ' + username + '!');
+                
+            } else {
+                // Sign in existing user
+                console.log('Signing in...');
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                let user = users.find(u => u.email === email && u.password === password);
+                
+                // Special handling for ilandaman69@gmail.com if it doesn't have a username yet
+                if (user && email === ADMIN_EMAIL && !user.username) {
+                    user.username = 'Ilan';
+                    // Update the user in storage
+                    const userIndex = users.findIndex(u => u.email === email);
+                    if (userIndex !== -1) {
+                        users[userIndex] = user;
+                        localStorage.setItem('users', JSON.stringify(users));
+                    }
+                }
+                
+                if (user) {
+                    currentUser = { email, username: user.username };
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    // Clear form
+                    document.getElementById('email').value = '';
+                    document.getElementById('password').value = '';
+                    
+                    showUserProfile();
+                    alert('Welcome back, ' + user.username + '!');
+                } else {
+                    alert('Invalid email or password. Please try again.');
+                }
+            }
+        }
+
+        function showUserProfile() {
+            document.getElementById('authBox').style.display = 'none';
+            document.getElementById('userProfile').style.display = 'block';
+            document.getElementById('userUsername').textContent = currentUser.username;
+            document.getElementById('userEmail').textContent = currentUser.email;
+            
+            // Unlock games
+            document.getElementById('gamesLocked').style.display = 'none';
+            document.getElementById('gamesContent').style.display = 'block';
+            
+            // Unlock chatroom
+            document.getElementById('chatroomLocked').style.display = 'none';
+            document.getElementById('chatroomContent').style.display = 'flex';
+            
+            // Start chatroom if not already started
+            if (!heartbeatInterval) {
+                startChatroom();
+            }
+            
+            // Check if admin (either superadmin or granted admin)
+            if (isSuperAdmin() || isGrantedAdmin()) {
+                if (isDeviceVerified() || isGrantedAdmin()) {
+                    isAdminVerified = true;
+                    document.getElementById('adminTab').style.display = 'block';
+                    updateAdminStats();
+                } else {
+                    showAdminVerification();
+                }
+            }
+            
+            // Show announcement
+            showAnnouncement();
+        }
+
+        function logout() {
+            // Stop chatroom
+            stopChatroom();
+            
+            currentUser = null;
+            isAdminVerified = false;
+            localStorage.removeItem('currentUser');
+            
+            document.getElementById('authBox').style.display = 'block';
+            document.getElementById('userProfile').style.display = 'none';
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            
+            // Lock games
+            document.getElementById('gamesLocked').style.display = 'block';
+            document.getElementById('gamesContent').style.display = 'none';
+            
+            // Lock chatroom
+            document.getElementById('chatroomLocked').style.display = 'block';
+            document.getElementById('chatroomContent').style.display = 'none';
+            
+            // Hide admin tab
+            document.getElementById('adminTab').style.display = 'none';
+            
+            // Switch to account tab
+            switchTab('account');
+        }
+
+        const games = [
+            { name: "Awesome Tanks 2", url: "https://nintendoboi2222.github.io/games/awesome-tanks-2", category: "action" },
+            { name: "Basket Random", url: "https://nintendoboi2222.github.io/games/basket-random", category: "sports" },
+            { name: "Basketball Stars", url: "https://nintendoboi2222.github.io/games/basketball-stars", category: "sports" },
+            { name: "Bit Planes", url: "https://nintendoboi2222.github.io/games/bit-planes", category: "action" },
+            { name: "Bitlife", url: "https://nintendoboi2222.github.io/games/bitlife", category: "classic" },
+            { name: "Block Blast", url: "https://nintendoboi2222.github.io/games/block-blast", category: "classic" },
+            { name: "Bloxors", url: "https://nintendoboi2222.github.io/games/bloxors", category: "classic" },
+            { name: "Bloons TD", url: "https://nintendoboi2222.github.io/games/BTD-1", category: "classic" },
+            { name: "Bloons TD 2", url: "https://nintendoboi2222.github.io/games/BTD-2", category: "classic" },
+            { name: "Bloons TD 3", url: "https://nintendoboi2222.github.io/games/BTD-3", category: "classic" },
+            { name: "Bloons TD 4", url: "https://nintendoboi2222.github.io/games/BTD-4", category: "classic" },
+            { name: "Bloons TD 5", url: "https://nintendoboi2222.github.io/games/BTD-5", category: "classic" },
+            { name: "Boxing Random", url: "https://nintendoboi2222.github.io/games/boxing-random", category: "sports" },
+            { name: "Burrito Bison", url: "https://nintendoboi2222.github.io/games/Burrito-Bison", category: "action" },
+            { name: "Chrome Dino", url: "https://nintendoboi2222.github.io/games/chrome-dino", category: "classic" },
+            { name: "Clicker Heroes", url: "https://nintendoboi2222.github.io/games/clickerheros", category: "classic" },
+            { name: "Cluster Truck", url: "https://nintendoboi2222.github.io/games/cluster-truck", category: "action" },
+            { name: "COD Zombies", url: "https://nintendoboi2222.github.io/games/cod-zombies", category: "action" },
+            { name: "Cookie Clicker", url: "https://nintendoboi2222.github.io/games/cookie-clicker", category: "classic" },
+            { name: "Craft Mine", url: "https://nintendoboi2222.github.io/games/craft-mine", category: "classic" },
+            { name: "Crossy Road", url: "https://nintendoboi2222.github.io/games/crossy-road", category: "classic" },
+            { name: "Doom", url: "https://nintendoboi2222.github.io/games/doom", category: "action" },
+            { name: "Drift Hunters", url: "https://nintendoboi2222.github.io/games/drift-hunters", category: "sports" },
+            { name: "Drift Boss", url: "https://nintendoboi2222.github.io/games/drift-boss", category: "sports" },
+            { name: "Duck Life 1", url: "https://nintendoboi2222.github.io/games/duck-life-1", category: "classic" },
+            { name: "Duck Life 2", url: "https://nintendoboi2222.github.io/games/duck-life-2", category: "classic" },
+            { name: "Duck Life 3", url: "https://nintendoboi2222.github.io/games/duck-life-3", category: "classic" },
+            { name: "Duck Life 4", url: "https://nintendoboi2222.github.io/games/duck-life-4", category: "classic" },
+            { name: "Eggy Car", url: "https://nintendoboi2222.github.io/games/eggy-car", category: "sports" },
+            { name: "FNAF 2", url: "https://nintendoboi2222.github.io/games/FNAF-2", category: "action" },
+            { name: "FNAF 3", url: "https://nintendoboi2222.github.io/games/FNAF-3", category: "action" },
+            { name: "Flappy Bird", url: "https://nintendoboi2222.github.io/games/flappy-birb", category: "classic" },
+            { name: "Funny Shooter 2", url: "https://nintendoboi2222.github.io/games/Funny-Shooter-2", category: "action" },
+            { name: "Geometry Dash", url: "https://nintendoboi2222.github.io/games/geometrydash", category: "action" },
+            { name: "Getaway Shootout", url: "https://nintendoboi2222.github.io/games/getaway-shootout", category: "action" },
+            { name: "Google Snake", url: "https://nintendoboi2222.github.io/games/Google-snake", category: "classic" },
+            { name: "Idle Breakout", url: "https://nintendoboi2222.github.io/games/idle-breakout", category: "classic" },
+            { name: "Impossible Quiz", url: "https://nintendoboi2222.github.io/games/impossiblequiz", category: "classic" },
+            { name: "Impossible Quiz 2", url: "https://nintendoboi2222.github.io/games/impossiblequiz-2", category: "classic" },
+            { name: "Learn To Fly", url: "https://nintendoboi2222.github.io/games/learn-to-fly", category: "action" },
+            { name: "Learn To Fly 2", url: "https://nintendoboi2222.github.io/games/learn-to-fly-2", category: "action" },
+            { name: "Learn To Fly 3", url: "https://nintendoboi2222.github.io/games/learn-to-fly-3", category: "action" },
+            { name: "Monkey Mart", url: "https://nintendoboi2222.github.io/games/monkey-mart", category: "classic" },
+            { name: "Moto X3M", url: "https://nintendoboi2222.github.io/games/moto-x3m", category: "sports" },
+            { name: "Murder", url: "https://nintendoboi2222.github.io/games/murder", category: "action" },
+            { name: "OVO", url: "https://nintendoboi2222.github.io/games/OVO", category: "action" },
+            { name: "Papa Louie", url: "https://nintendoboi2222.github.io/games/papa-louie", category: "action" },
+            { name: "Papa's Bakeria", url: "https://nintendoboi2222.github.io/games/papas-bakeria", category: "action" },
+            { name: "Papa's Burgeria", url: "https://nintendoboi2222.github.io/games/papas-burgeria", category: "action" },
+            { name: "Papa's Cheeseria", url: "https://nintendoboi2222.github.io/games/papas-cheeseria", category: "action" },
+            { name: "Papa's Cupcakeria", url: "https://nintendoboi2222.github.io/games/papas-cupcakeria", category: "action" },
+            { name: "Papa's Donuteria", url: "https://nintendoboi2222.github.io/games/papas-donuteria", category: "action" },
+            { name: "Papa's Freezeria", url: "https://nintendoboi2222.github.io/games/papas-freezeria", category: "action" },
+            { name: "Papa's Hotdoggeria", url: "https://nintendoboi2222.github.io/games/papas-hotdoggeria", category: "action" },
+            { name: "Papa's Pancakeria", url: "https://nintendoboi2222.github.io/games/papas-pancakeria", category: "action" },
+            { name: "Papa's Pizzeria", url: "https://nintendoboi2222.github.io/games/papas-pizzeria", category: "action" },
+            { name: "Papa's Scooperia", url: "https://nintendoboi2222.github.io/games/papas-scooperia", category: "action" },
+            { name: "Papa's Sushiria", url: "https://nintendoboi2222.github.io/games/papas-sushiria", category: "action" },
+            { name: "Papa's Taco Mia", url: "https://nintendoboi2222.github.io/games/papas-taco-mia", category: "action" },
+            { name: "Papa's Wingeria", url: "https://nintendoboi2222.github.io/games/papas-wingeria", category: "action" },
+            { name: "Papa's Pastaria", url: "https://nintendoboi2222.github.io/games/papas-pastaria", category: "action" },
+            { name: "Poly Track", url: "https://nintendoboi2222.github.io/games/poly-track", category: "sports" },
+            { name: "Retro Bowl", url: "https://nintendoboi2222.github.io/games/retro-bowl", category: "sports" },
+            { name: "Retro Bowl College", url: "https://nintendoboi2222.github.io/games/retro-bowl-collage", category: "sports" },
+            { name: "Riddle School 1", url: "https://nintendoboi2222.github.io/games/Riddle-school-1", category: "classic" },
+            { name: "Riddle School 2", url: "https://nintendoboi2222.github.io/games/riddle-school-2", category: "classic" },
+            { name: "Riddle School 3", url: "https://nintendoboi2222.github.io/games/Riddle-School-3", category: "classic" },
+            { name: "Riddle School 4", url: "https://nintendoboi2222.github.io/games/Riddle-School-4", category: "classic" },
+            { name: "Riddle School 5", url: "https://nintendoboi2222.github.io/games/Riddle-School-5", category: "classic" },
+            { name: "Rooftop Snipers", url: "https://nintendoboi2222.github.io/games/rooftopsnipers", category: "action" },
+            { name: "Run 2", url: "https://nintendoboi2222.github.io/games/run-2", category: "action" },
+            { name: "Slope", url: "https://nintendoboi2222.github.io/games/slope", category: "action" },
+            { name: "Snow Rider", url: "https://nintendoboi2222.github.io/games/snow-rider", category: "sports" },
+            { name: "Soccer Random", url: "https://nintendoboi2222.github.io/games/soccer-random", category: "sports" },
+            { name: "Sonic CD", url: "https://nintendoboi2222.github.io/games/sonic-cd", category: "classic" },
+            { name: "Stickman Hook", url: "https://nintendoboi2222.github.io/games/stickman-hook", category: "action" },
+            { name: "Superhot", url: "https://nintendoboi2222.github.io/games/superhot", category: "action" },
+            { name: "Super Mario 63", url: "https://nintendoboi2222.github.io/games/SM63", category: "classic" },
+            { name: "Super Mario 64", url: "https://nintendoboi2222.github.io/games/SM64", category: "classic" },
+            { name: "Subway Surfers Beijing", url: "https://nintendoboi2222.github.io/games/subway-surfers-beijing", category: "action" },
+            { name: "Subway Surfers SF", url: "https://nintendoboi2222.github.io/games/subwaysurfers-sf", category: "action" },
+            { name: "Tetris", url: "https://nintendoboi2222.github.io/games/tetris", category: "classic" },
+            { name: "There Is No Game", url: "https://nintendoboi2222.github.io/games/there-is-no-game", category: "classic" },
+            { name: "Time Shooter 2", url: "https://nintendoboi2222.github.io/games/time-shooter-2", category: "action" },
+            { name: "Time Shooter 3", url: "https://nintendoboi2222.github.io/games/time-shooter-3", category: "action" },
+            { name: "Tiny Fishing", url: "https://nintendoboi2222.github.io/games/tiny-fishing", category: "classic" },
+            { name: "Tunnel Rush 1", url: "https://nintendoboi2222.github.io/games/tunnel-rush-1", category: "action" },
+            { name: "Tunnel Rush 2", url: "https://nintendoboi2222.github.io/games/tunnel-rush-2", category: "action" },
+            { name: "Volley Random", url: "https://nintendoboi2222.github.io/games/volley-random", category: "sports" },
+            { name: "2048", url: "https://nintendoboi2222.github.io/games/2048", category: "classic" },
+            { name: "1v1 LOL", url: "https://nintendoboi2222.github.io/games/1v1-lol", category: "action" },
+            { name: "10 Minutes Till Dawn", url: "https://nintendoboi2222.github.io/games/10-minutes-till-dawn", category: "action" }
+        ];
+
+        let currentCategory = 'all';
+
+        function renderGames(gamesToRender) {
+            const grid = document.getElementById('gamesGrid');
+            const noResults = document.getElementById('noResults');
+            
+            grid.innerHTML = '';
+            
+            if (gamesToRender.length === 0) {
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            
+            gamesToRender.forEach(game => {
+                const card = document.createElement('a');
+                card.className = 'game-card';
+                card.onclick = (e) => {
+                    e.preventDefault();
+                    playGame(game.name, game.url);
+                };
+                card.innerHTML = `<div class="game-name">${game.name}</div>`;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterGames() {
+            const searchTerm = document.getElementById('gameSearch').value.toLowerCase();
+            let filtered = games;
+            
+            if (currentCategory !== 'all') {
+                filtered = games.filter(game => game.category === currentCategory);
+            }
+            
+            if (searchTerm) {
+                filtered = filtered.filter(game => 
+                    game.name.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            renderGames(filtered);
+        }
+
+        function filterByCategory(category) {
+            currentCategory = category;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            filterGames();
+        }
+
+        function playGame(name, url) {
+            // Try to load in iframe first
+            document.getElementById('modalGameName').textContent = name;
+            document.getElementById('gameFrame').src = url;
+            document.getElementById('gameModal').classList.add('active');
+            
+            // Add error handling - if iframe fails, offer to open in new tab
+            const iframe = document.getElementById('gameFrame');
+            iframe.onerror = function() {
+                const openNewTab = confirm('The game cannot load in this window. Would you like to open it in a new tab instead?');
+                if (openNewTab) {
+                    window.open(url, '_blank');
+                    closeGame();
+                }
+            };
+        }
+
+        function closeGame() {
+            document.getElementById('gameModal').classList.remove('active');
+            document.getElementById('gameFrame').src = '';
+        }
+
+        function openInNewTab() {
+            const currentUrl = document.getElementById('gameFrame').src;
+            if (currentUrl) {
+                window.open(currentUrl, '_blank');
+            }
+        }
+
+        function switchTab(tabName) {
+            // Prevent switching to games or chatroom if not logged in
+            if ((tabName === 'games' || tabName === 'chatroom') && !currentUser) {
+                alert('Please sign in first to access this feature.');
+                return;
+            }
+            
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active to clicked button
+            event.target.classList.add('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('gameModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeGame();
+            }
+        });
+
+        // Initialize games
+        renderGames(games);
+    </script>
+</body>
+</html>
