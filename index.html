@@ -1750,6 +1750,118 @@
                         <div id="hackerTyperOutput" class="hack-terminal"></div>
                     </div>
 
+                    <!-- Password Strength Checker -->
+                    <div class="hack-card">
+                        <h3>🛡️ Password Strength</h3>
+                        <input type="text" id="passwordCheck" class="hack-input" placeholder="Enter password...">
+                        <button class="hack-btn" onclick="checkPasswordStrength()">Analyze</button>
+                        <div id="passwordStrength" class="hack-output"></div>
+                    </div>
+
+                    <!-- Morse Code -->
+                    <div class="hack-card">
+                        <h3>📡 Morse Code</h3>
+                        <textarea id="morseInput" class="hack-textarea" placeholder="Enter text or morse code..."></textarea>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <button class="hack-btn" onclick="textToMorse()">→ Morse</button>
+                            <button class="hack-btn secondary" onclick="morseToText()">→ Text</button>
+                        </div>
+                        <div id="morseOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- ROT13 Cipher -->
+                    <div class="hack-card">
+                        <h3>🔄 ROT13 Cipher</h3>
+                        <textarea id="rot13Input" class="hack-textarea" placeholder="Enter text..."></textarea>
+                        <button class="hack-btn" onclick="rot13Convert()">Convert</button>
+                        <div id="rot13Output" class="hack-output"></div>
+                    </div>
+
+                    <!-- URL Encoder/Decoder -->
+                    <div class="hack-card">
+                        <h3>🌐 URL Codec</h3>
+                        <textarea id="urlInput" class="hack-textarea" placeholder="Enter URL or encoded text..."></textarea>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                            <button class="hack-btn" onclick="encodeURL()">Encode</button>
+                            <button class="hack-btn secondary" onclick="decodeURL()">Decode</button>
+                        </div>
+                        <div id="urlOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- Reverse String -->
+                    <div class="hack-card">
+                        <h3>🔁 String Reverser</h3>
+                        <textarea id="reverseInput" class="hack-textarea" placeholder="Enter text to reverse..."></textarea>
+                        <button class="hack-btn" onclick="reverseString()">Reverse</button>
+                        <div id="reverseOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- Unix Timestamp -->
+                    <div class="hack-card">
+                        <h3>⏰ Unix Timestamp</h3>
+                        <input type="number" id="timestampInput" class="hack-input" placeholder="Enter timestamp...">
+                        <button class="hack-btn" onclick="convertTimestamp()">Convert to Date</button>
+                        <button class="hack-btn secondary" onclick="getCurrentTimestamp()">Get Current</button>
+                        <div id="timestampOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- MAC Address Generator -->
+                    <div class="hack-card">
+                        <h3>🖧 MAC Generator</h3>
+                        <button class="hack-btn" onclick="generateMAC()">Generate MAC</button>
+                        <div id="macOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- DNS Lookup Simulator -->
+                    <div class="hack-card">
+                        <h3>🔍 DNS Lookup</h3>
+                        <input type="text" id="dnsInput" class="hack-input" placeholder="Enter domain...">
+                        <button class="hack-btn" onclick="dnsLookup()">Lookup</button>
+                        <div id="dnsOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- Port Scanner (Educational) -->
+                    <div class="hack-card">
+                        <h3>🔓 Port Scanner</h3>
+                        <p style="color: #00ff00; font-family: 'Courier New', monospace; font-size: 0.85em; margin-bottom: 10px;">(Educational Simulation)</p>
+                        <input type="text" id="portScanHost" class="hack-input" placeholder="Target: localhost" value="localhost">
+                        <button class="hack-btn" onclick="simulatePortScan()">Scan Ports</button>
+                        <div id="portScanOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- ASCII Art Generator -->
+                    <div class="hack-card">
+                        <h3>🎨 ASCII Banner</h3>
+                        <input type="text" id="asciiInput" class="hack-input" placeholder="Enter text..." maxlength="10">
+                        <button class="hack-btn" onclick="generateASCII()">Generate</button>
+                        <div id="asciiOutput" class="hack-output" style="font-size: 0.7em; line-height: 1.2;"></div>
+                    </div>
+
+                    <!-- Lorem Ipsum (Hacker Edition) -->
+                    <div class="hack-card">
+                        <h3>📝 Hacker Lorem</h3>
+                        <label style="color: #00ff00; font-family: 'Courier New', monospace;">Sentences: <input type="number" id="loremCount" value="3" min="1" max="10" class="hack-input-small"></label>
+                        <button class="hack-btn" onclick="generateHackerLorem()">Generate</button>
+                        <div id="loremOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- Steganography Demo -->
+                    <div class="hack-card">
+                        <h3>🕵️ Text Steganography</h3>
+                        <textarea id="stegoInput" class="hack-textarea" placeholder="Enter message to hide..."></textarea>
+                        <button class="hack-btn" onclick="hideMessage()">Hide in Text</button>
+                        <button class="hack-btn secondary" onclick="extractMessage()">Extract Hidden</button>
+                        <div id="stegoOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- Hacker Typer -->
+                    <div class="hack-card" style="grid-column: 1 / -1;">
+                        <h3>⌨️ Hacker Typer</h3>
+                        <p style="color: #00ff00; font-family: 'Courier New', monospace; font-size: 0.9em; margin-bottom: 10px;">Click "Start" then type anything to look like a hacker!</p>
+                        <button class="hack-btn" id="hackerTyperBtn" onclick="toggleHackerTyper()">Start Hacking</button>
+                        <div id="hackerTyperOutput" class="hack-terminal"></div>
+                    </div>
+
                     <!-- Matrix Rain -->
                     <div class="hack-card" style="grid-column: 1 / -1;">
                         <h3>🌧️ Matrix Rain</h3>
@@ -3494,6 +3606,358 @@
             } catch (error) {
                 output.innerHTML = '[ERROR] Network test failed';
             }
+        }
+
+        // Password Strength Checker
+        function checkPasswordStrength() {
+            const password = document.getElementById('passwordCheck').value;
+            const output = document.getElementById('passwordStrength');
+
+            if (!password) {
+                output.innerHTML = '[ERROR] No password provided';
+                return;
+            }
+
+            let strength = 0;
+            let feedback = [];
+
+            // Length check
+            if (password.length >= 8) strength += 25;
+            else feedback.push('Use at least 8 characters');
+
+            // Uppercase check
+            if (/[A-Z]/.test(password)) strength += 25;
+            else feedback.push('Add uppercase letters');
+
+            // Lowercase check
+            if (/[a-z]/.test(password)) strength += 15;
+            else feedback.push('Add lowercase letters');
+
+            // Number check
+            if (/[0-9]/.test(password)) strength += 20;
+            else feedback.push('Add numbers');
+
+            // Special character check
+            if (/[^A-Za-z0-9]/.test(password)) strength += 15;
+            else feedback.push('Add special characters');
+
+            let strengthText = 'WEAK';
+            if (strength >= 80) strengthText = 'STRONG';
+            else if (strength >= 60) strengthText = 'MODERATE';
+
+            output.innerHTML = `
+[PASSWORD ANALYSIS]
+> Strength: ${strengthText} (${strength}/100)
+> Length: ${password.length} characters
+${feedback.length > 0 ? '> Suggestions: ' + feedback.join(', ') : '> Status: Excellent password!'}
+[ANALYSIS COMPLETE]`;
+        }
+
+        // Morse Code
+        const morseCode = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+            'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+            'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+            'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+            'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
+            '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
+            '8': '---..', '9': '----.', ' ': '/'
+        };
+
+        function textToMorse() {
+            const input = document.getElementById('morseInput').value.toUpperCase();
+            const output = document.getElementById('morseOutput');
+            if (!input) {
+                output.innerHTML = '[ERROR] No input provided';
+                return;
+            }
+            const morse = input.split('').map(char => morseCode[char] || char).join(' ');
+            output.innerHTML = `[MORSE CODE]\n${morse}`;
+        }
+
+        function morseToText() {
+            const input = document.getElementById('morseInput').value;
+            const output = document.getElementById('morseOutput');
+            if (!input) {
+                output.innerHTML = '[ERROR] No input provided';
+                return;
+            }
+            const reverseMorse = Object.fromEntries(Object.entries(morseCode).map(([k, v]) => [v, k]));
+            const text = input.split(' ').map(code => reverseMorse[code] || code).join('');
+            output.innerHTML = `[TEXT]\n${text}`;
+        }
+
+        // ROT13
+        function rot13Convert() {
+            const input = document.getElementById('rot13Input').value;
+            const output = document.getElementById('rot13Output');
+            if (!input) {
+                output.innerHTML = '[ERROR] No input provided';
+                return;
+            }
+            const result = input.replace(/[a-zA-Z]/g, char => {
+                const base = char <= 'Z' ? 65 : 97;
+                return String.fromCharCode((char.charCodeAt(0) - base + 13) % 26 + base);
+            });
+            output.innerHTML = `[ROT13]\n${result}`;
+        }
+
+        // URL Encoder/Decoder
+        function encodeURL() {
+            const input = document.getElementById('urlInput').value;
+            const output = document.getElementById('urlOutput');
+            if (!input) {
+                output.innerHTML = '[ERROR] No input provided';
+                return;
+            }
+            try {
+                const encoded = encodeURIComponent(input);
+                output.innerHTML = `[ENCODED URL]\n${encoded}`;
+            } catch (error) {
+                output.innerHTML = '[ERROR] Encoding failed';
+            }
+        }
+
+        function decodeURL() {
+            const input = document.getElementById('urlInput').value;
+            const output = document.getElementById('urlOutput');
+            if (!input) {
+                output.innerHTML = '[ERROR] No input provided';
+                return;
+            }
+            try {
+                const decoded = decodeURIComponent(input);
+                output.innerHTML = `[DECODED URL]\n${decoded}`;
+            } catch (error) {
+                output.innerHTML = '[ERROR] Decoding failed';
+            }
+        }
+
+        // String Reverser
+        function reverseString() {
+            const input = document.getElementById('reverseInput').value;
+            const output = document.getElementById('reverseOutput');
+            if (!input) {
+                output.innerHTML = '[ERROR] No input provided';
+                return;
+            }
+            const reversed = input.split('').reverse().join('');
+            output.innerHTML = `[REVERSED]\n${reversed}`;
+        }
+
+        // Unix Timestamp
+        function convertTimestamp() {
+            const timestamp = document.getElementById('timestampInput').value;
+            const output = document.getElementById('timestampOutput');
+            if (!timestamp) {
+                output.innerHTML = '[ERROR] No timestamp provided';
+                return;
+            }
+            const date = new Date(parseInt(timestamp) * 1000);
+            output.innerHTML = `
+[TIMESTAMP CONVERSION]
+> Unix Time: ${timestamp}
+> Date: ${date.toLocaleString()}
+> UTC: ${date.toUTCString()}
+> ISO: ${date.toISOString()}`;
+        }
+
+        function getCurrentTimestamp() {
+            const output = document.getElementById('timestampOutput');
+            const now = Math.floor(Date.now() / 1000);
+            document.getElementById('timestampInput').value = now;
+            output.innerHTML = `
+[CURRENT TIMESTAMP]
+> Unix Time: ${now}
+> Date: ${new Date().toLocaleString()}`;
+        }
+
+        // MAC Address Generator
+        function generateMAC() {
+            const output = document.getElementById('macOutput');
+            const mac = Array.from({length: 6}, () =>
+                Math.floor(Math.random() * 256).toString(16).padStart(2, '0')
+            ).join(':').toUpperCase();
+            output.innerHTML = `
+[MAC ADDRESS GENERATED]
+> Address: ${mac}
+> Format: IEEE 802
+> Type: Unicast
+[GENERATION COMPLETE]`;
+        }
+
+        // DNS Lookup Simulator
+        function dnsLookup() {
+            const domain = document.getElementById('dnsInput').value;
+            const output = document.getElementById('dnsOutput');
+            if (!domain) {
+                output.innerHTML = '[ERROR] No domain provided';
+                return;
+            }
+            output.innerHTML = '[QUERYING DNS SERVERS...]';
+            setTimeout(() => {
+                const fakeIP = `${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
+                output.innerHTML = `
+[DNS LOOKUP COMPLETE]
+> Domain: ${domain}
+> A Record: ${fakeIP}
+> TTL: 3600
+> Status: Resolved
+(Note: Educational simulation)`;
+            }, 1000);
+        }
+
+        // Port Scanner Simulator
+        function simulatePortScan() {
+            const host = document.getElementById('portScanHost').value || 'localhost';
+            const output = document.getElementById('portScanOutput');
+            output.innerHTML = `[SCANNING ${host}...]\n`;
+
+            const commonPorts = [
+                {port: 21, service: 'FTP', status: 'closed'},
+                {port: 22, service: 'SSH', status: 'open'},
+                {port: 23, service: 'Telnet', status: 'closed'},
+                {port: 80, service: 'HTTP', status: 'open'},
+                {port: 443, service: 'HTTPS', status: 'open'},
+                {port: 3306, service: 'MySQL', status: 'filtered'},
+                {port: 5432, service: 'PostgreSQL', status: 'closed'},
+                {port: 8080, service: 'HTTP-Proxy', status: 'open'}
+            ];
+
+            let scanOutput = `[SCANNING ${host}...]\n\n`;
+            commonPorts.forEach((p, i) => {
+                setTimeout(() => {
+                    scanOutput += `> Port ${p.port} (${p.service}): ${p.status.toUpperCase()}\n`;
+                    output.innerHTML = scanOutput;
+                    if (i === commonPorts.length - 1) {
+                        output.innerHTML += '\n[SCAN COMPLETE]\n(Educational simulation only)';
+                    }
+                }, i * 200);
+            });
+        }
+
+        // ASCII Art Generator
+        function generateASCII() {
+            const text = document.getElementById('asciiInput').value.toUpperCase();
+            const output = document.getElementById('asciiOutput');
+            if (!text) {
+                output.innerHTML = '[ERROR] No text provided';
+                return;
+            }
+
+            const ascii = {
+                'A': ['  ▄▀▀█  ', ' █▄▄▄█ ', ' █    █ '],
+                'B': [' ▀▀▀▀█  ', ' ▀▀▀▀█  ', ' ▀▀▀▀▀  '],
+                'C': ['  ▄▀▀▀  ', ' █      ', '  ▀▀▀▄  '],
+                'D': [' ▀▀▀█   ', ' █   █  ', ' ▀▀▀▀   '],
+                'E': [' ▀▀▀▀▀  ', ' ▀▀▀▀   ', ' ▀▀▀▀▀  '],
+                'F': [' ▀▀▀▀▀  ', ' ▀▀▀▀   ', ' █      '],
+                'G': ['  ▄▀▀▀  ', ' █  ▀█  ', '  ▀▀▀▄  '],
+                'H': [' █   █  ', ' █▀▀▀█  ', ' █   █  '],
+                'I': [' ▀▀▀▀▀  ', '   █    ', ' ▀▀▀▀▀  '],
+                'J': ['     █  ', '     █  ', ' ▀▀▀▀   '],
+                'K': [' █  █   ', ' █▀▀    ', ' █  █   '],
+                'L': [' █      ', ' █      ', ' ▀▀▀▀▀  '],
+                'M': [' █▀▄▀█  ', ' █   █  ', ' █   █  '],
+                'N': [' █▄  █  ', ' █ ▀ █  ', ' █   █  '],
+                'O': ['  ▄▀█   ', ' █   █  ', '  ▀▀▀   '],
+                'P': [' ▀▀▀█   ', ' █▀▀▀   ', ' █      '],
+                'Q': ['  ▄▀█   ', ' █ ▄ █  ', '  ▀▀█   '],
+                'R': [' ▀▀▀█   ', ' █▀▀▀   ', ' █  █   '],
+                'S': ['  ▄▀▀▀  ', '  ▀▀▀▄  ', ' ▀▀▀▀   '],
+                'T': [' ▀▀█▀▀  ', '   █    ', '   █    '],
+                'U': [' █   █  ', ' █   █  ', '  ▀▀▀   '],
+                'V': [' █   █  ', ' █   █  ', '  ▀▄▀   '],
+                'W': [' █   █  ', ' █ █ █  ', ' █▀ ▀█  '],
+                'X': [' █   █  ', '  ▀▄▀   ', ' █   █  '],
+                'Y': [' █   █  ', '  ▀▄▀   ', '   █    '],
+                'Z': [' ▀▀▀▀█  ', '   ▄▀   ', ' █▀▀▀▀  '],
+                '0': ['  ▄▀█   ', ' █ █ █  ', '  ▀▀▀   '],
+                '1': ['   ▄█   ', '    █   ', '  ▀▀▀   '],
+                '2': ['  ▄▀▀▄  ', '   ▄▀   ', ' ▀▀▀▀▀  '],
+                '3': [' ▀▀▀█   ', '   ▀█   ', ' ▀▀▀▀   '],
+                '4': [' █  █   ', ' ▀▀▀█   ', '    █   '],
+                '5': [' ▀▀▀▀▀  ', ' ▀▀▀▄   ', ' ▀▀▀▀   '],
+                '6': ['  ▄▀▀   ', ' █▀▀▄   ', '  ▀▀▀   '],
+                '7': [' ▀▀▀▀█  ', '    █   ', '   █    '],
+                '8': ['  ▄▀▄   ', '  ▄▀▄   ', '  ▀▀▀   '],
+                '9': ['  ▄▀▄   ', '  ▀▀█   ', '  ▀▀▀   '],
+                ' ': ['        ', '        ', '        ']
+            };
+
+            let lines = ['', '', ''];
+            for (let char of text) {
+                const art = ascii[char] || ascii[' '];
+                lines[0] += art[0];
+                lines[1] += art[1];
+                lines[2] += art[2];
+            }
+
+            output.innerHTML = `[ASCII BANNER]\n${lines.join('\n')}`;
+        }
+
+        // Hacker Lorem Generator
+        function generateHackerLorem() {
+            const count = parseInt(document.getElementById('loremCount').value);
+            const output = document.getElementById('loremOutput');
+
+            const words = [
+                'firewall', 'encryption', 'backdoor', 'protocol', 'algorithm',
+                'mainframe', 'terminal', 'binary', 'kernel', 'exploit',
+                'payload', 'buffer', 'overflow', 'injection', 'authentication',
+                'authorization', 'cryptography', 'decryption', 'brute-force',
+                'vulnerability', 'penetration', 'network', 'packet', 'router'
+            ];
+
+            let sentences = [];
+            for (let i = 0; i < count; i++) {
+                let sentence = [];
+                const length = Math.floor(Math.random() * 10) + 8;
+                for (let j = 0; j < length; j++) {
+                    sentence.push(words[Math.floor(Math.random() * words.length)]);
+                }
+                sentence[0] = sentence[0].charAt(0).toUpperCase() + sentence[0].slice(1);
+                sentences.push(sentence.join(' ') + '.');
+            }
+
+            output.innerHTML = `[HACKER LOREM GENERATED]\n${sentences.join(' ')}`;
+        }
+
+        // Steganography Demo
+        let hiddenMessage = '';
+        function hideMessage() {
+            const message = document.getElementById('stegoInput').value;
+            const output = document.getElementById('stegoOutput');
+            if (!message) {
+                output.innerHTML = '[ERROR] No message provided';
+                return;
+            }
+
+            // Simple demo: encode message in zero-width characters
+            hiddenMessage = message;
+            const coverText = 'This is a normal looking message. Nothing suspicious here.';
+            const encoded = coverText + '\u200B'.repeat(message.length);
+
+            output.innerHTML = `
+[MESSAGE HIDDEN]
+> Cover Text: ${coverText}
+> Hidden Length: ${message.length} chars
+> Method: Zero-width encoding
+> Status: Message concealed
+[COPY TEXT ABOVE TO EXTRACT]`;
+        }
+
+        function extractMessage() {
+            const output = document.getElementById('stegoOutput');
+            if (!hiddenMessage) {
+                output.innerHTML = '[ERROR] No hidden message found in current session';
+                return;
+            }
+            output.innerHTML = `
+[MESSAGE EXTRACTED]
+> Hidden Message: ${hiddenMessage}
+> Status: Successfully decoded
+[EXTRACTION COMPLETE]`;
         }
 
         // Hacker Typer
