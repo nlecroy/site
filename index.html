@@ -977,6 +977,10 @@
             }
         }
     </style>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 </head>
 <body>
     <div class="container">
@@ -1229,10 +1233,31 @@
     </div>
 
     <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBvX8JqW7kp_YqN9YxRZz3KL5oU0mF8Abc",
+            authDomain: "nash-ilan-website.firebaseapp.com",
+            databaseURL: "https://nash-ilan-website-default-rtdb.firebaseio.com",
+            projectId: "nash-ilan-website",
+            storageBucket: "nash-ilan-website.appspot.com",
+            messagingSenderId: "123456789012",
+            appId: "1:123456789012:web:abc123def456"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Database references
+        const messagesRef = database.ref('messages');
+        const onlineUsersRef = database.ref('onlineUsers');
+        const usersRef = database.ref('users');
+
         // Admin configuration
         const ADMIN_EMAIL = 'ilandaman69@gmail.com';
         let isAdminVerified = false;
         let deviceId = null;
+        let currentUserPresenceRef = null;
 
         // Generate or retrieve device ID
         function getDeviceId() {
@@ -1798,70 +1823,54 @@
 
         // Update online status
         function updateOnlineStatus() {
-            if (!currentUser) return;
-            
-            const onlineUsers = JSON.parse(localStorage.getItem('onlineUsers') || '{}');
-            
-            if (isTabActive) {
-                onlineUsers[currentUser.email] = {
-                    email: currentUser.email,
-                    lastSeen: Date.now(),
-                    status: 'online'
-                };
-            } else {
-                if (onlineUsers[currentUser.email]) {
-                    onlineUsers[currentUser.email].status = 'away';
-                    onlineUsers[currentUser.email].lastSeen = Date.now();
-                }
-            }
-            
-            localStorage.setItem('onlineUsers', JSON.stringify(onlineUsers));
-            updateOnlineCount();
-        }
+            if (!currentUser || !currentUserPresenceRef) return;
 
-        // Clean up stale users (offline for more than 30 seconds)
-        function cleanupStaleUsers() {
-            const onlineUsers = JSON.parse(localStorage.getItem('onlineUsers') || '{}');
-            const now = Date.now();
-            let changed = false;
-            
-            Object.keys(onlineUsers).forEach(email => {
-                if (now - onlineUsers[email].lastSeen > 30000) {
-                    delete onlineUsers[email];
-                    changed = true;
-                }
+            const status = isTabActive ? 'online' : 'away';
+            currentUserPresenceRef.update({
+                email: currentUser.email,
+                username: currentUser.username,
+                status: status,
+                lastSeen: Date.now()
             });
-            
-            if (changed) {
-                localStorage.setItem('onlineUsers', JSON.stringify(onlineUsers));
-                updateOnlineCount();
-            }
         }
 
-        // Update online user count
+        // Update online user count (Firebase real-time)
         function updateOnlineCount() {
-            const onlineUsers = JSON.parse(localStorage.getItem('onlineUsers') || '{}');
-            const activeUsers = Object.values(onlineUsers).filter(u => u.status === 'online');
-            document.getElementById('onlineUsersText').textContent = `Online: ${activeUsers.length}`;
+            onlineUsersRef.on('value', (snapshot) => {
+                const onlineUsers = snapshot.val() || {};
+                const activeUsers = Object.values(onlineUsers).filter(u => u.status === 'online');
+                document.getElementById('onlineUsersText').textContent = `Online: ${activeUsers.length}`;
+            });
         }
 
         // Start chatroom functionality
         function startChatroom() {
+            if (!currentUser) return;
+
+            // Set up Firebase presence
+            const userEmail = currentUser.email.replace(/\./g, '_'); // Firebase doesn't allow dots in keys
+            currentUserPresenceRef = onlineUsersRef.child(userEmail);
+
+            // Set user as online
+            currentUserPresenceRef.set({
+                email: currentUser.email,
+                username: currentUser.username,
+                status: 'online',
+                lastSeen: Date.now()
+            });
+
+            // Remove user when they disconnect
+            currentUserPresenceRef.onDisconnect().remove();
+
             // Send heartbeat every 5 seconds
             heartbeatInterval = setInterval(() => {
                 updateOnlineStatus();
-                cleanupStaleUsers();
                 updateBanTimer();
             }, 5000);
 
-            // Check for new messages every 2 seconds
-            checkMessagesInterval = setInterval(() => {
-                loadMessages();
-            }, 2000);
-
             // Initial load
             loadMessages();
-            updateOnlineStatus();
+            updateOnlineCount();
             updateBanTimer();
         }
 
@@ -1871,16 +1880,17 @@
                 clearInterval(heartbeatInterval);
                 heartbeatInterval = null;
             }
-            if (checkMessagesInterval) {
-                clearInterval(checkMessagesInterval);
-                checkMessagesInterval = null;
+
+            // Remove from online users in Firebase
+            if (currentUserPresenceRef) {
+                currentUserPresenceRef.remove();
+                currentUserPresenceRef = null;
             }
-            
-            // Remove from online users
-            const onlineUsers = JSON.parse(localStorage.getItem('onlineUsers') || '{}');
-            if (currentUser && onlineUsers[currentUser.email]) {
-                delete onlineUsers[currentUser.email];
-                localStorage.setItem('onlineUsers', JSON.stringify(onlineUsers));
+
+            // Remove Firebase listeners
+            if (messagesListener) {
+                messagesRef.off('value', messagesListener);
+                messagesListener = null;
             }
         }
 
@@ -1888,15 +1898,15 @@
         function sendMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
-            
+
             if (!message || !currentUser) return;
-            
+
             // Check if user is banned
             if (isUserBanned(currentUser.email)) {
                 alert('You are banned from the chat.');
                 return;
             }
-            
+
             // Check for banned words
             const bannedWord = containsBannedWord(message);
             if (bannedWord) {
@@ -1909,33 +1919,23 @@
                     reason: `Used banned word: ${bannedWord}`
                 };
                 localStorage.setItem('bannedUsers', JSON.stringify(bannedUsers));
-                
+
                 updateBanTimer();
                 alert(`You have been banned for 1 hour for using the word "${bannedWord}".`);
                 input.value = '';
                 return;
             }
-            
-            const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
-            
+
+            // Send message to Firebase
             const newMessage = {
-                id: Date.now(),
                 user: currentUser.email,
+                username: currentUser.username,
                 text: message,
                 timestamp: Date.now()
             };
-            
-            messages.push(newMessage);
-            
-            // Keep only last 100 messages
-            if (messages.length > 100) {
-                messages.shift();
-            }
-            
-            localStorage.setItem('chatMessages', JSON.stringify(messages));
-            
+
+            messagesRef.push(newMessage);
             input.value = '';
-            loadMessages();
         }
 
         // Handle Enter key in chat input
@@ -1945,47 +1945,67 @@
             }
         }
 
-        // Load and display messages
+        // Load and display messages (Firebase real-time)
+        let messagesListener = null;
+        let onlineUsersListener = null;
+
         function loadMessages() {
-            const messages = JSON.parse(localStorage.getItem('chatMessages') || '[]');
-            const onlineUsers = JSON.parse(localStorage.getItem('onlineUsers') || '{}');
-            const users = JSON.parse(localStorage.getItem('users') || '[]');
-            const grantedAdmins = JSON.parse(localStorage.getItem('grantedAdmins') || '[]');
             const container = document.getElementById('chatMessages');
-            
-            if (messages.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">Welcome to the chatroom! Start chatting below.</div>';
-                return;
+
+            // Remove old listener if exists
+            if (messagesListener) {
+                messagesRef.off('value', messagesListener);
             }
-            
-            container.innerHTML = messages.map(msg => {
-                const isOnline = onlineUsers[msg.user] && onlineUsers[msg.user].status === 'online';
-                const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                
-                // Get username from email
-                const user = users.find(u => u.email === msg.user);
-                const displayName = user ? user.username : msg.user;
-                
-                // Check if user is admin
-                const isAdmin = msg.user === ADMIN_EMAIL || grantedAdmins.includes(msg.user);
-                const adminBadge = isAdmin ? '<span class="admin-badge">ADMIN</span>' : '';
-                
-                return `
-                    <div class="message">
-                        <div class="message-header">
-                            <div class="message-user">
-                                <span class="${isOnline ? 'online-indicator' : 'offline-indicator'}"></span>
-                                ${escapeHtml(displayName)}${adminBadge}
+
+            // Listen for messages in real-time
+            messagesListener = messagesRef.limitToLast(100).on('value', (snapshot) => {
+                const messages = [];
+                snapshot.forEach((child) => {
+                    messages.push({
+                        key: child.key,
+                        ...child.val()
+                    });
+                });
+
+                if (messages.length === 0) {
+                    container.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">Welcome to the chatroom! Start chatting below.</div>';
+                    return;
+                }
+
+                // Get online users and admins from localStorage
+                const grantedAdmins = JSON.parse(localStorage.getItem('grantedAdmins') || '[]');
+
+                // Get online status from Firebase
+                onlineUsersRef.once('value').then((onlineSnapshot) => {
+                    const onlineUsers = onlineSnapshot.val() || {};
+
+                    container.innerHTML = messages.map(msg => {
+                        const isOnline = onlineUsers[msg.user] && onlineUsers[msg.user].status === 'online';
+                        const time = new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                        const displayName = msg.username || msg.user;
+
+                        // Check if user is admin
+                        const isAdmin = msg.user === ADMIN_EMAIL || grantedAdmins.includes(msg.user);
+                        const adminBadge = isAdmin ? '<span class="admin-badge">ADMIN</span>' : '';
+
+                        return `
+                            <div class="message">
+                                <div class="message-header">
+                                    <div class="message-user">
+                                        <span class="${isOnline ? 'online-indicator' : 'offline-indicator'}"></span>
+                                        ${escapeHtml(displayName)}${adminBadge}
+                                    </div>
+                                    <div class="message-time">${time}</div>
+                                </div>
+                                <div class="message-text">${escapeHtml(msg.text)}</div>
                             </div>
-                            <div class="message-time">${time}</div>
-                        </div>
-                        <div class="message-text">${escapeHtml(msg.text)}</div>
-                    </div>
-                `;
-            }).join('');
-            
-            // Auto-scroll to bottom
-            container.scrollTop = container.scrollHeight;
+                        `;
+                    }).join('');
+
+                    // Auto-scroll to bottom
+                    container.scrollTop = container.scrollHeight;
+                });
+            });
         }
 
         // Escape HTML to prevent XSS
