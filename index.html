@@ -1308,7 +1308,6 @@
             <button class="tab-btn active" onclick="switchTab('account')">👤 Account</button>
             <button class="tab-btn" onclick="switchTab('games')">🎮 Play Games</button>
             <button class="tab-btn" onclick="switchTab('chatroom')">💬 Chatroom</button>
-            <button class="tab-btn" onclick="switchTab('utils')">🛠️ Utils</button>
             <button class="tab-btn" onclick="switchTab('hacks')">💻 Hacks</button>
             <button class="tab-btn" id="adminTab" onclick="switchTab('admin')" style="display: none;">⚙️ Admin</button>
         </div>
@@ -1505,134 +1504,6 @@
                         <div class="ban-list" id="bannedUsersList">
                             <p style="color: #999;">No banned users</p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Utils Tab -->
-        <div id="utils" class="tab-content">
-            <div class="utils-container">
-                <h2 style="text-align: center; color: white; margin-bottom: 30px; font-size: 2.5em;">🛠️ Utility Tools</h2>
-
-                <div class="utils-grid">
-                    <!-- Calculator -->
-                    <div class="util-card">
-                        <h3>🔢 Calculator</h3>
-                        <input type="text" id="calcDisplay" class="util-input" readonly placeholder="0">
-                        <div class="calc-buttons">
-                            <button class="calc-btn" onclick="appendCalc('7')">7</button>
-                            <button class="calc-btn" onclick="appendCalc('8')">8</button>
-                            <button class="calc-btn" onclick="appendCalc('9')">9</button>
-                            <button class="calc-btn operator" onclick="appendCalc('/')">/</button>
-                            <button class="calc-btn" onclick="appendCalc('4')">4</button>
-                            <button class="calc-btn" onclick="appendCalc('5')">5</button>
-                            <button class="calc-btn" onclick="appendCalc('6')">6</button>
-                            <button class="calc-btn operator" onclick="appendCalc('*')">×</button>
-                            <button class="calc-btn" onclick="appendCalc('1')">1</button>
-                            <button class="calc-btn" onclick="appendCalc('2')">2</button>
-                            <button class="calc-btn" onclick="appendCalc('3')">3</button>
-                            <button class="calc-btn operator" onclick="appendCalc('-')">-</button>
-                            <button class="calc-btn" onclick="appendCalc('0')">0</button>
-                            <button class="calc-btn" onclick="appendCalc('.')">.</button>
-                            <button class="calc-btn equals" onclick="calculateResult()">=</button>
-                            <button class="calc-btn operator" onclick="appendCalc('+')">+</button>
-                            <button class="calc-btn clear" onclick="clearCalc()" style="grid-column: span 4;">Clear</button>
-                        </div>
-                    </div>
-
-                    <!-- Random Password Generator -->
-                    <div class="util-card">
-                        <h3>🔐 Password Generator</h3>
-                        <p style="margin-bottom: 15px; color: #666; font-size: 0.9em;">Length: <span id="passLength">12</span></p>
-                        <input type="range" id="passwordLength" min="6" max="32" value="12" oninput="updatePassLength()" style="width: 100%; margin-bottom: 15px;">
-                        <div style="margin-bottom: 15px;">
-                            <label><input type="checkbox" id="includeNumbers" checked> Numbers</label><br>
-                            <label><input type="checkbox" id="includeSymbols" checked> Symbols</label><br>
-                            <label><input type="checkbox" id="includeUppercase" checked> Uppercase</label>
-                        </div>
-                        <input type="text" id="passwordOutput" class="util-input" readonly placeholder="Click generate">
-                        <button class="util-btn" onclick="generatePassword()">Generate Password</button>
-                        <button class="util-btn secondary" onclick="copyPassword()">Copy</button>
-                    </div>
-
-                    <!-- Word Counter -->
-                    <div class="util-card">
-                        <h3>📝 Word Counter</h3>
-                        <textarea id="wordCountText" class="util-textarea" placeholder="Type or paste text here..."></textarea>
-                        <div style="margin-top: 15px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
-                            <p><strong>Words:</strong> <span id="wordCount">0</span></p>
-                            <p><strong>Characters:</strong> <span id="charCount">0</span></p>
-                            <p><strong>Characters (no spaces):</strong> <span id="charCountNoSpace">0</span></p>
-                        </div>
-                    </div>
-
-                    <!-- Color Picker -->
-                    <div class="util-card">
-                        <h3>🎨 Color Picker</h3>
-                        <input type="color" id="colorPicker" value="#667eea" style="width: 100%; height: 60px; border: none; border-radius: 8px; cursor: pointer; margin-bottom: 15px;">
-                        <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
-                            <p><strong>HEX:</strong> <span id="hexValue">#667eea</span></p>
-                            <p><strong>RGB:</strong> <span id="rgbValue">rgb(102, 126, 234)</span></p>
-                        </div>
-                        <button class="util-btn secondary" onclick="copyColor()">Copy HEX</button>
-                    </div>
-
-                    <!-- Random Number Generator -->
-                    <div class="util-card">
-                        <h3>🎲 Random Number</h3>
-                        <div style="margin-bottom: 15px;">
-                            <label>Min: <input type="number" id="randomMin" value="1" class="util-input-small"></label>
-                            <label>Max: <input type="number" id="randomMax" value="100" class="util-input-small"></label>
-                        </div>
-                        <div id="randomResult" style="font-size: 3em; font-weight: bold; text-align: center; color: #667eea; margin: 20px 0; min-height: 60px;">?</div>
-                        <button class="util-btn" onclick="generateRandom()">Generate</button>
-                    </div>
-
-                    <!-- Timer/Stopwatch -->
-                    <div class="util-card">
-                        <h3>⏱️ Stopwatch</h3>
-                        <div id="stopwatchDisplay" style="font-size: 2.5em; font-weight: bold; text-align: center; color: #667eea; margin: 20px 0;">00:00:00</div>
-                        <button class="util-btn" id="stopwatchBtn" onclick="toggleStopwatch()">Start</button>
-                        <button class="util-btn secondary" onclick="resetStopwatch()">Reset</button>
-                    </div>
-
-                    <!-- Unit Converter -->
-                    <div class="util-card">
-                        <h3>📏 Unit Converter</h3>
-                        <select id="unitType" class="util-select" onchange="updateUnitLabels()">
-                            <option value="length">Length</option>
-                            <option value="weight">Weight</option>
-                            <option value="temperature">Temperature</option>
-                        </select>
-                        <div style="margin: 15px 0;">
-                            <input type="number" id="unitInput" class="util-input" placeholder="Enter value" oninput="convertUnit()">
-                            <p style="margin: 10px 0;"><span id="fromUnit">Meters</span> ➜ <span id="toUnit">Feet</span></p>
-                            <div id="unitResult" style="font-size: 1.5em; font-weight: bold; color: #667eea; margin-top: 10px;">-</div>
-                        </div>
-                    </div>
-
-                    <!-- Case Converter -->
-                    <div class="util-card">
-                        <h3>🔤 Case Converter</h3>
-                        <textarea id="caseText" class="util-textarea" placeholder="Enter text to convert..."></textarea>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
-                            <button class="util-btn secondary" onclick="convertCase('upper')">UPPERCASE</button>
-                            <button class="util-btn secondary" onclick="convertCase('lower')">lowercase</button>
-                            <button class="util-btn secondary" onclick="convertCase('title')">Title Case</button>
-                            <button class="util-btn secondary" onclick="convertCase('sentence')">Sentence case</button>
-                        </div>
-                    </div>
-
-                    <!-- Dice Roller -->
-                    <div class="util-card">
-                        <h3>🎲 Dice Roller</h3>
-                        <div style="margin-bottom: 15px;">
-                            <label>Number of Dice: <input type="number" id="numDice" value="1" min="1" max="10" class="util-input-small"></label>
-                            <label>Sides: <input type="number" id="diceSides" value="6" min="2" max="100" class="util-input-small"></label>
-                        </div>
-                        <div id="diceResults" style="font-size: 2em; font-weight: bold; text-align: center; color: #667eea; margin: 20px 0; min-height: 60px;">🎲</div>
-                        <button class="util-btn" onclick="rollDice()">Roll Dice!</button>
                     </div>
                 </div>
             </div>
@@ -1852,6 +1723,63 @@
                         <button class="hack-btn" onclick="hideMessage()">Hide in Text</button>
                         <button class="hack-btn secondary" onclick="extractMessage()">Extract Hidden</button>
                         <div id="stegoOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- Subnet Calculator -->
+                    <div class="hack-card">
+                        <h3>🌐 Subnet Calculator</h3>
+                        <input type="text" id="subnetInput" class="hack-input" placeholder="e.g., 192.168.1.0/24">
+                        <button class="hack-btn" onclick="calculateSubnet()">Calculate</button>
+                        <div id="subnetOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- Ping Simulator -->
+                    <div class="hack-card">
+                        <h3>📡 Ping Simulator</h3>
+                        <input type="text" id="pingInput" class="hack-input" placeholder="Enter hostname or IP...">
+                        <button class="hack-btn" onclick="simulatePing()">Ping</button>
+                        <div id="pingOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- Traceroute Simulator -->
+                    <div class="hack-card">
+                        <h3>🗺️ Traceroute</h3>
+                        <input type="text" id="tracerouteInput" class="hack-input" placeholder="Enter destination...">
+                        <button class="hack-btn" onclick="simulateTraceroute()">Trace Route</button>
+                        <div id="tracerouteOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- IP Geolocation -->
+                    <div class="hack-card">
+                        <h3>🌍 IP Geolocation</h3>
+                        <input type="text" id="geoInput" class="hack-input" placeholder="Enter IP address...">
+                        <button class="hack-btn" onclick="getGeoLocation()">Locate</button>
+                        <div id="geoOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- WHOIS Lookup -->
+                    <div class="hack-card">
+                        <h3>🔍 WHOIS Lookup</h3>
+                        <input type="text" id="whoisInput" class="hack-input" placeholder="Enter domain name...">
+                        <button class="hack-btn" onclick="simulateWhois()">Lookup</button>
+                        <div id="whoisOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- HTTP Headers Viewer -->
+                    <div class="hack-card">
+                        <h3>📨 HTTP Headers</h3>
+                        <input type="text" id="headersInput" class="hack-input" placeholder="Enter URL...">
+                        <button class="hack-btn" onclick="showHeaders()">View Headers</button>
+                        <div id="headersOutput" class="hack-output"></div>
+                    </div>
+
+                    <!-- Bandwidth Calculator -->
+                    <div class="hack-card">
+                        <h3>📊 Bandwidth Calculator</h3>
+                        <label style="color: #00ff00; font-family: 'Courier New', monospace;">File Size (MB): <input type="number" id="fileSize" value="100" class="hack-input-small"></label><br>
+                        <label style="color: #00ff00; font-family: 'Courier New', monospace;">Speed (Mbps): <input type="number" id="bandwidth" value="100" class="hack-input-small"></label>
+                        <button class="hack-btn" onclick="calculateBandwidth()">Calculate</button>
+                        <div id="bandwidthOutput" class="hack-output"></div>
                     </div>
 
                     <!-- Hacker Typer -->
@@ -3958,6 +3886,281 @@ ${feedback.length > 0 ? '> Suggestions: ' + feedback.join(', ') : '> Status: Exc
 > Hidden Message: ${hiddenMessage}
 > Status: Successfully decoded
 [EXTRACTION COMPLETE]`;
+        }
+
+        // Subnet Calculator
+        function calculateSubnet() {
+            const input = document.getElementById('subnetInput').value;
+            const output = document.getElementById('subnetOutput');
+
+            if (!input) {
+                output.innerHTML = '[ERROR] No CIDR notation provided';
+                return;
+            }
+
+            const match = input.match(/^(\d+)\.(\d+)\.(\d+)\.(\d+)\/(\d+)$/);
+            if (!match) {
+                output.innerHTML = '[ERROR] Invalid CIDR format. Use: 192.168.1.0/24';
+                return;
+            }
+
+            const [_, o1, o2, o3, o4, cidr] = match.map(Number);
+            const mask = cidr;
+            const numHosts = Math.pow(2, 32 - mask) - 2;
+
+            // Calculate network address
+            const ip = (o1 << 24) | (o2 << 16) | (o3 << 8) | o4;
+            const maskBits = (0xFFFFFFFF << (32 - mask)) >>> 0;
+            const network = (ip & maskBits) >>> 0;
+            const broadcast = (network | ~maskBits) >>> 0;
+            const firstHost = network + 1;
+            const lastHost = broadcast - 1;
+
+            const formatIP = (num) => [
+                (num >>> 24) & 0xFF,
+                (num >>> 16) & 0xFF,
+                (num >>> 8) & 0xFF,
+                num & 0xFF
+            ].join('.');
+
+            const netmask = formatIP(maskBits);
+
+            output.innerHTML = `
+[SUBNET CALCULATION COMPLETE]
+> Network Address: ${formatIP(network)}
+> Subnet Mask: ${netmask}
+> Wildcard Mask: ${formatIP(~maskBits >>> 0)}
+> Broadcast Address: ${formatIP(broadcast)}
+> First Usable Host: ${formatIP(firstHost)}
+> Last Usable Host: ${formatIP(lastHost)}
+> Total Hosts: ${Math.pow(2, 32 - mask)}
+> Usable Hosts: ${numHosts}
+> CIDR Notation: /${mask}
+[ANALYSIS COMPLETE]`;
+        }
+
+        // Ping Simulator
+        function simulatePing() {
+            const host = document.getElementById('pingInput').value;
+            const output = document.getElementById('pingOutput');
+
+            if (!host) {
+                output.innerHTML = '[ERROR] No hostname provided';
+                return;
+            }
+
+            output.innerHTML = '[INITIATING PING...]';
+
+            setTimeout(() => {
+                const pings = [];
+                for (let i = 0; i < 4; i++) {
+                    const time = (Math.random() * 50 + 10).toFixed(1);
+                    pings.push(`Reply from ${host}: bytes=32 time=${time}ms TTL=64`);
+                }
+
+                const avg = (pings.reduce((sum, p) => sum + parseFloat(p.match(/time=(\d+\.\d+)/)[1]), 0) / 4).toFixed(1);
+
+                output.innerHTML = `
+[PING RESULTS]
+Pinging ${host} with 32 bytes of data:
+
+${pings.join('\n')}
+
+> Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+> Average Round Trip: ${avg}ms
+> Status: Host is reachable
+[PING COMPLETE]`;
+            }, 1500);
+        }
+
+        // Traceroute Simulator
+        function simulateTraceroute() {
+            const dest = document.getElementById('tracerouteInput').value;
+            const output = document.getElementById('tracerouteOutput');
+
+            if (!dest) {
+                output.innerHTML = '[ERROR] No destination provided';
+                return;
+            }
+
+            output.innerHTML = `[TRACING ROUTE TO ${dest}]\n> Maximum hops: 30\n`;
+
+            const hops = [
+                { ip: '192.168.1.1', name: 'router.local', time: '1.2ms' },
+                { ip: '10.0.0.1', name: 'gateway.isp.net', time: '8.5ms' },
+                { ip: '172.16.5.1', name: 'core1.isp.net', time: '15.3ms' },
+                { ip: '203.0.113.1', name: 'edge.backbone.net', time: '22.1ms' },
+                { ip: '198.51.100.1', name: 'transit.tier1.net', time: '35.7ms' },
+                { ip: '192.0.2.1', name: dest, time: '42.3ms' }
+            ];
+
+            let delay = 500;
+            hops.forEach((hop, i) => {
+                setTimeout(() => {
+                    output.innerHTML += `\n${i + 1}  ${hop.time}  ${hop.ip} [${hop.name}]`;
+                    if (i === hops.length - 1) {
+                        output.innerHTML += '\n\n[TRACE COMPLETE]';
+                    }
+                }, delay);
+                delay += 400;
+            });
+        }
+
+        // IP Geolocation
+        function getGeoLocation() {
+            const ip = document.getElementById('geoInput').value;
+            const output = document.getElementById('geoOutput');
+
+            if (!ip) {
+                output.innerHTML = '[ERROR] No IP address provided';
+                return;
+            }
+
+            // Validate IP format
+            const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/;
+            if (!ipRegex.test(ip)) {
+                output.innerHTML = '[ERROR] Invalid IP address format';
+                return;
+            }
+
+            output.innerHTML = '[QUERYING GEOLOCATION DATABASE...]';
+
+            setTimeout(() => {
+                // Simulate geolocation data
+                const locations = [
+                    { country: 'United States', city: 'San Francisco', region: 'California', isp: 'CloudFlare Inc.', lat: '37.7749', lon: '-122.4194' },
+                    { country: 'United Kingdom', city: 'London', region: 'England', isp: 'British Telecom', lat: '51.5074', lon: '-0.1278' },
+                    { country: 'Japan', city: 'Tokyo', region: 'Kanto', isp: 'NTT Communications', lat: '35.6762', lon: '139.6503' },
+                    { country: 'Germany', city: 'Frankfurt', region: 'Hesse', isp: 'Deutsche Telekom', lat: '50.1109', lon: '8.6821' }
+                ];
+
+                const location = locations[Math.floor(Math.random() * locations.length)];
+
+                output.innerHTML = `
+[GEOLOCATION RESULTS]
+> IP Address: ${ip}
+> Country: ${location.country}
+> Region: ${location.region}
+> City: ${location.city}
+> ISP: ${location.isp}
+> Coordinates: ${location.lat}, ${location.lon}
+> Timezone: UTC${Math.floor(Math.random() * 13) - 6}:00
+> Status: Location identified
+[LOOKUP COMPLETE]`;
+            }, 1200);
+        }
+
+        // WHOIS Lookup
+        function simulateWhois() {
+            const domain = document.getElementById('whoisInput').value;
+            const output = document.getElementById('whoisOutput');
+
+            if (!domain) {
+                output.innerHTML = '[ERROR] No domain provided';
+                return;
+            }
+
+            output.innerHTML = '[QUERYING WHOIS DATABASE...]';
+
+            setTimeout(() => {
+                const date = new Date();
+                const created = new Date(date.getFullYear() - Math.floor(Math.random() * 10), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28));
+                const expires = new Date(date.getFullYear() + 1, created.getMonth(), created.getDate());
+
+                output.innerHTML = `
+[WHOIS INFORMATION]
+> Domain: ${domain}
+> Registrar: Example Registrar Inc.
+> Created: ${created.toDateString()}
+> Expires: ${expires.toDateString()}
+> Status: clientTransferProhibited
+> Name Servers:
+  - ns1.example.com
+  - ns2.example.com
+> DNSSEC: unsigned
+> Updated: ${new Date().toDateString()}
+[WHOIS LOOKUP COMPLETE]`;
+            }, 1500);
+        }
+
+        // HTTP Headers Viewer
+        function showHeaders() {
+            const url = document.getElementById('headersInput').value;
+            const output = document.getElementById('headersOutput');
+
+            if (!url) {
+                output.innerHTML = '[ERROR] No URL provided';
+                return;
+            }
+
+            output.innerHTML = '[FETCHING HTTP HEADERS...]';
+
+            setTimeout(() => {
+                output.innerHTML = `
+[HTTP HEADERS]
+> URL: ${url}
+> Request Method: GET
+> Status: 200 OK
+
+[RESPONSE HEADERS]
+> Server: nginx/1.20.1
+> Content-Type: text/html; charset=utf-8
+> Content-Length: 15234
+> Connection: keep-alive
+> Cache-Control: max-age=3600
+> ETag: "5f8b4c2d-3b82"
+> Last-Modified: ${new Date().toUTCString()}
+> X-Frame-Options: SAMEORIGIN
+> X-Content-Type-Options: nosniff
+> Strict-Transport-Security: max-age=31536000
+> Access-Control-Allow-Origin: *
+
+[SECURITY HEADERS]
+> HTTPS: Enabled
+> HSTS: Enabled
+> CSP: Not Set
+[HEADER ANALYSIS COMPLETE]`;
+            }, 1000);
+        }
+
+        // Bandwidth Calculator
+        function calculateBandwidth() {
+            const fileSize = parseFloat(document.getElementById('fileSize').value);
+            const bandwidth = parseFloat(document.getElementById('bandwidth').value);
+            const output = document.getElementById('bandwidthOutput');
+
+            if (!fileSize || !bandwidth) {
+                output.innerHTML = '[ERROR] Invalid input values';
+                return;
+            }
+
+            // Convert MB to Mb (megabytes to megabits)
+            const fileSizeMb = fileSize * 8;
+
+            // Calculate time in seconds
+            const timeSeconds = fileSizeMb / bandwidth;
+            const minutes = Math.floor(timeSeconds / 60);
+            const seconds = (timeSeconds % 60).toFixed(2);
+
+            // Calculate for different speeds
+            const speeds = [
+                { name: '10 Mbps', time: (fileSizeMb / 10).toFixed(2) },
+                { name: '100 Mbps', time: (fileSizeMb / 100).toFixed(2) },
+                { name: '1 Gbps', time: (fileSizeMb / 1000).toFixed(2) }
+            ];
+
+            output.innerHTML = `
+[BANDWIDTH CALCULATION]
+> File Size: ${fileSize} MB (${fileSizeMb} Mb)
+> Connection Speed: ${bandwidth} Mbps
+> Transfer Time: ${minutes}m ${seconds}s
+> Actual Throughput: ~${(bandwidth * 0.8).toFixed(2)} Mbps (80% efficiency)
+
+[COMPARISON]
+${speeds.map(s => `> ${s.name}: ${s.time}s`).join('\n')}
+
+> Note: Actual speeds may vary due to network conditions
+[CALCULATION COMPLETE]`;
         }
 
         // Hacker Typer
