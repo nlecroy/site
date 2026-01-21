@@ -2910,30 +2910,24 @@
 
         // Check if user is already logged in on page load
         window.addEventListener('DOMContentLoaded', function() {
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                showUserProfile();
-                startChatroom();
-                
-                // Check if admin (super admin or granted admin)
-                if (isSuperAdmin()) {
-                    if (isDeviceVerified()) {
-                        isAdminVerified = true;
-                        document.getElementById('adminTab').style.display = 'block';
-                        updateAdminStats();
-                    } else {
-                        showAdminVerification();
-                    }
-                } else if (isGrantedAdmin()) {
-                    isAdminVerified = true;
-                    document.getElementById('adminTab').style.display = 'block';
-                    updateAdminStats();
+            try {
+                const savedUser = localStorage.getItem('currentUser');
+                if (savedUser) {
+                    currentUser = JSON.parse(savedUser);
+                    showUserProfile();
+                    startChatroom();
+
+                    // Admin access is now handled through the password modal system
+                    // The admin tab will be shown if session exists (handled in separate DOMContentLoaded listener)
                 }
+
+                // Show announcement if exists
+                showAnnouncement();
+            } catch (error) {
+                console.error('Error during page load:', error);
+                // If there's an error, clear the saved user and reload
+                localStorage.removeItem('currentUser');
             }
-            
-            // Show announcement if exists
-            showAnnouncement();
         });
 
         // Update online status
@@ -3204,16 +3198,19 @@
                 // Log in the new user
                 currentUser = { email, username };
                 localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                
+
                 // Clear form
                 document.getElementById('email').value = '';
                 document.getElementById('password').value = '';
                 document.getElementById('username').value = '';
-                
-                showUserProfile();
-                
-                // Show success message
-                alert('Account created successfully! Welcome, ' + username + '!');
+
+                try {
+                    showUserProfile();
+                    // Show success message
+                    alert('Account created successfully! Welcome, ' + username + '!');
+                } catch (error) {
+                    console.error('Error showing profile:', error);
+                    alert('Account created successfully! Please refresh the page to continue.');
                 
             } else {
                 // Sign in existing user
@@ -3235,13 +3232,18 @@
                 if (user) {
                     currentUser = { email, username: user.username };
                     localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    
+
                     // Clear form
                     document.getElementById('email').value = '';
                     document.getElementById('password').value = '';
-                    
-                    showUserProfile();
-                    alert('Welcome back, ' + user.username + '!');
+
+                    try {
+                        showUserProfile();
+                        alert('Welcome back, ' + user.username + '!');
+                    } catch (error) {
+                        console.error('Error showing profile:', error);
+                        alert('Signed in successfully! Please refresh the page to continue.');
+                    }
                 } else {
                     alert('Invalid email or password. Please try again.');
                 }
@@ -3253,30 +3255,22 @@
             document.getElementById('userProfile').style.display = 'block';
             document.getElementById('userUsername').textContent = currentUser.username;
             document.getElementById('userEmail').textContent = currentUser.email;
-            
+
             // Unlock games
             document.getElementById('gamesLocked').style.display = 'none';
             document.getElementById('gamesContent').style.display = 'block';
-            
+
             // Unlock chatroom
             document.getElementById('chatroomLocked').style.display = 'none';
             document.getElementById('chatroomContent').style.display = 'flex';
-            
+
             // Start chatroom if not already started
             if (!heartbeatInterval) {
                 startChatroom();
             }
-            
-            // Check if admin (either superadmin or granted admin)
-            if (isSuperAdmin() || isGrantedAdmin()) {
-                if (isDeviceVerified() || isGrantedAdmin()) {
-                    isAdminVerified = true;
-                    document.getElementById('adminTab').style.display = 'block';
-                    updateAdminStats();
-                } else {
-                    showAdminVerification();
-                }
-            }
+
+            // Admin access is now handled through the password modal system
+            // No need to auto-show admin tab on login
             
             // Show announcement
             showAnnouncement();
