@@ -88,6 +88,162 @@
             margin-top: 10px;
         }
 
+        .admin-access-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-access-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: rotate(90deg) scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+        }
+
+        .admin-password-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-password-modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .admin-password-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5),
+                        0 0 0 1px rgba(255,255,255,0.3),
+                        inset 0 0 30px rgba(255,255,255,0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            animation: slideInScale 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .admin-password-box h2 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 2.2em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .admin-password-box p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .admin-password-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            font-size: 1.1em;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-align: center;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .admin-password-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: normal;
+        }
+
+        .admin-password-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+        }
+
+        .admin-password-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.3) 0%, rgba(0, 200, 0, 0.3) 100%);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 2px solid rgba(0, 255, 0, 0.4);
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            margin-bottom: 15px;
+        }
+
+        .admin-password-submit:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.4) 0%, rgba(0, 200, 0, 0.4) 100%);
+            border-color: rgba(0, 255, 0, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .admin-password-cancel {
+            width: 100%;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: rgba(255, 255, 255, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .admin-password-cancel:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .admin-password-error {
+            color: #ff6b6b;
+            text-shadow: 0 0 10px #ff6b6b;
+            margin-top: 15px;
+            font-weight: bold;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -650,35 +806,81 @@
         }
 
         .admin-header {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.3) 0%, rgba(238, 90, 111, 0.3) 100%);
+            backdrop-filter: blur(15px);
             color: white;
-            padding: 20px;
-            border-radius: 8px;
+            padding: 30px;
+            border-radius: 15px;
             margin-bottom: 30px;
             text-align: center;
+            border: 2px solid rgba(255, 107, 107, 0.4);
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .admin-header h2 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .admin-header p {
+            font-size: 1.1em;
+            opacity: 0.95;
         }
 
         .admin-section {
             margin-bottom: 30px;
-            padding: 20px;
-            background: #f9f9f9;
-            border-radius: 8px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .admin-section:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .admin-section h3 {
-            color: #333;
+            color: white;
             margin-bottom: 15px;
+            font-size: 1.4em;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .admin-section h4 {
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
         .announcement-input {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
             font-size: 1em;
             min-height: 100px;
             resize: vertical;
             font-family: inherit;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .announcement-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .announcement-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
         }
 
         .announcement-input:focus {
@@ -688,23 +890,50 @@
 
         .admin-btn {
             padding: 12px 30px;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.8) 0%, rgba(238, 90, 111, 0.8) 100%);
+            backdrop-filter: blur(10px);
             color: white;
-            border: none;
-            border-radius: 8px;
+            border: 2px solid rgba(255, 107, 107, 0.4);
+            border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s;
             margin-top: 10px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .admin-btn:hover::before {
+            left: 100%;
         }
 
         .admin-btn:hover {
-            transform: scale(1.05);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            border-color: rgba(255, 107, 107, 0.6);
         }
 
         .clear-btn {
-            background: #f44336;
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.8) 0%, rgba(211, 47, 47, 0.8) 100%);
+            border-color: rgba(244, 67, 54, 0.4);
             margin-left: 10px;
+        }
+
+        .clear-btn:hover {
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+            border-color: rgba(244, 67, 54, 0.6);
         }
 
         /* Announcement Banner */
@@ -1463,6 +1692,7 @@
         <header>
             <h1>🎮 Nash and Ilan's Website</h1>
             <p>Browse & Play Games Together</p>
+            <button class="admin-access-btn" onclick="showAdminPasswordPrompt()" title="Admin Access">⚙️</button>
         </header>
 
         <div class="nav-tabs">
@@ -1593,13 +1823,13 @@
         <div id="admin" class="tab-content">
             <div class="admin-container">
                 <div class="admin-header">
-                    <h2>⚙️ Admin Panel</h2>
-                    <p>Welcome, Administrator</p>
+                    <h2 style="color: white;">⚙️ Admin Control Panel</h2>
+                    <p style="color: rgba(255,255,255,0.9);">Welcome, Administrator - Full Access Granted</p>
                 </div>
 
                 <div class="admin-section">
-                    <h3>📢 Post Announcement</h3>
-                    <p style="color: #666; margin-bottom: 15px;">Create an announcement that will be displayed to all users</p>
+                    <h3 style="color: white;">📢 Post Announcement</h3>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">Create an announcement that will be displayed to all users</p>
                     <textarea 
                         class="announcement-input" 
                         id="adminAnnouncementInput" 
@@ -1609,15 +1839,15 @@
                 </div>
 
                 <div class="admin-section">
-                    <h3>📊 Statistics</h3>
-                    <p>Total Users: <strong id="totalUsers">0</strong></p>
-                    <p>Total Messages: <strong id="totalMessages">0</strong></p>
-                    <p>Current Announcement: <span id="currentAnnouncementStatus">None</span></p>
+                    <h3 style="color: white;">📊 Statistics</h3>
+                    <p style="color: rgba(255,255,255,0.9);">Total Users: <strong id="totalUsers">0</strong></p>
+                    <p style="color: rgba(255,255,255,0.9);">Total Messages: <strong id="totalMessages">0</strong></p>
+                    <p style="color: rgba(255,255,255,0.9);">Current Announcement: <span id="currentAnnouncementStatus">None</span></p>
                 </div>
 
                 <div class="admin-section">
-                    <h3>👥 Admin Management</h3>
-                    <p style="color: #666; margin-bottom: 15px;">Grant or revoke admin privileges</p>
+                    <h3 style="color: white;">👥 Admin Management</h3>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">Grant or revoke admin privileges</p>
                     <div class="form-group">
                         <label for="adminEmailInput">User Email</label>
                         <input type="email" id="adminEmailInput" placeholder="Enter user email">
@@ -1626,16 +1856,16 @@
                     <button class="admin-btn clear-btn" onclick="revokeAdminAccess()">Revoke Admin Access</button>
                     
                     <div style="margin-top: 20px;">
-                        <h4>Current Admins:</h4>
-                        <div id="adminList" style="margin-top: 10px; padding: 10px; background: white; border-radius: 5px;">
-                            <p style="color: #999;">Loading...</p>
+                        <h4 style="color: white;">Current Admins:</h4>
+                        <div id="adminList" style="margin-top: 10px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 8px; border: 1px solid rgba(255,255,255,0.2);">
+                            <p style="color: rgba(255,255,255,0.5);">Loading...</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="admin-section">
-                    <h3>🚫 Word Ban Management</h3>
-                    <p style="color: #666; margin-bottom: 15px;">Ban words that will auto-ban users for 1 hour if used</p>
+                    <h3 style="color: white;">🚫 Word Ban Management</h3>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">Ban words that will auto-ban users for 1 hour if used</p>
                     <div class="form-group">
                         <label for="bannedWordInput">Word to Ban</label>
                         <input type="text" id="bannedWordInput" placeholder="Enter word to ban">
@@ -1643,27 +1873,126 @@
                     <button class="admin-btn" onclick="addBannedWord()">Add Banned Word</button>
                     
                     <div style="margin-top: 20px;">
-                        <h4>Banned Words:</h4>
+                        <h4 style="color: white;">Banned Words:</h4>
                         <div class="word-ban-list" id="bannedWordsList">
-                            <p style="color: #999;">No banned words</p>
+                            <p style="color: rgba(255,255,255,0.5);">No banned words</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="admin-section">
                     <h3>⛔ User Ban Management</h3>
-                    <p style="color: #666; margin-bottom: 15px;">Manually ban or unban users</p>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">Manually ban or unban users</p>
                     <div class="form-group">
                         <label for="banUserEmail">User Email</label>
                         <input type="email" id="banUserEmail" placeholder="Enter user email">
                     </div>
                     <button class="admin-btn" onclick="banUser()">Ban User (1 Hour)</button>
-                    <button class="admin-btn" onclick="permanentBanUser()" style="background: #000;">Permanent Ban</button>
-                    
+                    <button class="admin-btn" onclick="permanentBanUser()" style="background: linear-gradient(135deg, #000 0%, #333 100%);">Permanent Ban</button>
+
                     <div style="margin-top: 20px;">
-                        <h4>Currently Banned Users:</h4>
+                        <h4 style="color: white;">Currently Banned Users:</h4>
                         <div class="ban-list" id="bannedUsersList">
-                            <p style="color: #999;">No banned users</p>
+                            <p style="color: rgba(255,255,255,0.5);">No banned users</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-section" style="background: linear-gradient(135deg, rgba(255,0,0,0.1) 0%, rgba(255,100,100,0.1) 100%); border: 2px solid rgba(255,0,0,0.3);">
+                    <h3 style="color: #ff6b6b;">💬 Chat Moderation</h3>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 20px;">Control and moderate the chatroom</p>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: white; margin-bottom: 10px;">Quick Actions:</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <button class="admin-btn" onclick="clearAllMessages()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);">🗑️ Clear All Messages</button>
+                            <button class="admin-btn" onclick="refreshChatStats()">🔄 Refresh Stats</button>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: white; margin-bottom: 10px;">Broadcast Message:</h4>
+                        <textarea id="adminBroadcastInput" class="announcement-input" placeholder="Type admin announcement to send to chat..." style="margin-bottom: 10px;"></textarea>
+                        <button class="admin-btn" onclick="broadcastAdminMessage()" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); width: 100%;">📢 Broadcast to Chat</button>
+                    </div>
+
+                    <div>
+                        <h4 style="color: white; margin-bottom: 10px;">Delete Specific Message:</h4>
+                        <input type="text" id="deleteMessageId" class="form-group input" placeholder="Enter message ID to delete" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white;">
+                        <button class="admin-btn" onclick="deleteSpecificMessage()" style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);">🗑️ Delete Message</button>
+                    </div>
+                </div>
+
+                <div class="admin-section" style="background: linear-gradient(135deg, rgba(0,150,255,0.1) 0%, rgba(0,200,255,0.1) 100%); border: 2px solid rgba(0,150,255,0.3);">
+                    <h3 style="color: #4fc3f7;">👥 User Management</h3>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 20px;">View and manage all users</p>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: white; margin-bottom: 10px;">Online Users:</h4>
+                        <div id="onlineUsersList" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; max-height: 200px; overflow-y: auto;">
+                            <p style="color: rgba(255,255,255,0.5);">Loading...</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="color: white; margin-bottom: 10px;">Kick User:</h4>
+                        <input type="text" id="kickUserEmail" class="form-group input" placeholder="Enter user email to kick" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white;">
+                        <button class="admin-btn" onclick="kickUser()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);">👢 Kick User</button>
+                    </div>
+                </div>
+
+                <div class="admin-section" style="background: linear-gradient(135deg, rgba(156,39,176,0.1) 0%, rgba(186,104,200,0.1) 100%); border: 2px solid rgba(156,39,176,0.3);">
+                    <h3 style="color: #ba68c8;">🎛️ Site Controls</h3>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 20px;">Control site-wide settings and features</p>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: white; margin-bottom: 10px;">Feature Toggles:</h4>
+                        <div style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px;">
+                            <label style="display: flex; align-items: center; margin-bottom: 10px; color: white; cursor: pointer;">
+                                <input type="checkbox" id="toggleChat" checked onchange="toggleSiteFeature('chat')" style="margin-right: 10px; width: 20px; height: 20px;">
+                                <span>💬 Chatroom Access</span>
+                            </label>
+                            <label style="display: flex; align-items: center; margin-bottom: 10px; color: white; cursor: pointer;">
+                                <input type="checkbox" id="toggleGames" checked onchange="toggleSiteFeature('games')" style="margin-right: 10px; width: 20px; height: 20px;">
+                                <span>🎮 Games Access</span>
+                            </label>
+                            <label style="display: flex; align-items: center; margin-bottom: 10px; color: white; cursor: pointer;">
+                                <input type="checkbox" id="toggleHacks" checked onchange="toggleSiteFeature('hacks')" style="margin-right: 10px; width: 20px; height: 20px;">
+                                <span>💻 Hacks Access</span>
+                            </label>
+                            <label style="display: flex; align-items: center; color: white; cursor: pointer;">
+                                <input type="checkbox" id="toggleRegistration" checked onchange="toggleSiteFeature('registration')" style="margin-right: 10px; width: 20px; height: 20px;">
+                                <span>📝 New User Registration</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="color: white; margin-bottom: 10px;">Maintenance Mode:</h4>
+                        <button class="admin-btn" id="maintenanceToggle" onclick="toggleMaintenanceMode()" style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); width: 100%;">🔧 Enable Maintenance Mode</button>
+                        <p id="maintenanceStatus" style="color: rgba(255,255,255,0.7); margin-top: 10px; font-size: 0.9em;">Status: Site is operational</p>
+                    </div>
+
+                    <div>
+                        <h4 style="color: white; margin-bottom: 10px;">Emergency Actions:</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <button class="admin-btn" onclick="kickAllUsers()" style="background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);">👥 Kick All Users</button>
+                            <button class="admin-btn" onclick="reloadAllSessions()" style="background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);">🔄 Force Reload All</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-section" style="background: linear-gradient(135deg, rgba(0,255,0,0.1) 0%, rgba(0,200,0,0.1) 100%); border: 2px solid rgba(0,255,0,0.3);">
+                    <h3 style="color: #00ff00;">🔧 Advanced Admin Tools</h3>
+                    <p style="color: rgba(255,255,255,0.7); margin-bottom: 20px;">Powerful tools for trusted admins only</p>
+
+                    <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; border: 1px solid rgba(0,255,0,0.3);">
+                        <h4 style="color: #00ff00; font-family: 'Courier New', monospace; margin-bottom: 15px;">⚠️ EXPERIMENTAL FEATURES</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <button class="admin-btn" onclick="viewDatabaseDump()" style="background: rgba(0,255,0,0.2); border: 2px solid rgba(0,255,0,0.4); color: #00ff00;">📊 View Database</button>
+                            <button class="admin-btn" onclick="exportUserData()" style="background: rgba(0,255,0,0.2); border: 2px solid rgba(0,255,0,0.4); color: #00ff00;">💾 Export Data</button>
+                            <button class="admin-btn" onclick="viewSystemLogs()" style="background: rgba(0,255,0,0.2); border: 2px solid rgba(0,255,0,0.4); color: #00ff00;">📝 System Logs</button>
+                            <button class="admin-btn" onclick="runDiagnostics()" style="background: rgba(0,255,0,0.2); border: 2px solid rgba(0,255,0,0.4); color: #00ff00;">🔍 Run Diagnostics</button>
                         </div>
                     </div>
                 </div>
@@ -1964,6 +2293,23 @@
         <footer>
             <p>Nash and Ilan's Website • Powered by Nintendoboi2222's game collection</p>
         </footer>
+    </div>
+
+    <!-- Admin Password Modal -->
+    <div class="admin-password-modal" id="adminPasswordModal">
+        <div class="admin-password-box">
+            <h2>🔐 Admin Access</h2>
+            <p>Enter the admin password to unlock the control panel</p>
+            <input
+                type="password"
+                class="admin-password-input"
+                id="adminPasswordInput"
+                placeholder="Enter password"
+                onkeypress="handleAdminPasswordEnter(event)">
+            <button class="admin-password-submit" onclick="verifyAdminPassword()">🔓 Unlock Admin Panel</button>
+            <button class="admin-password-cancel" onclick="closeAdminPasswordPrompt()">Cancel</button>
+            <div id="adminPasswordError" style="display: none;" class="admin-password-error"></div>
+        </div>
     </div>
 
     <!-- Device Verification Modal -->
@@ -3144,28 +3490,436 @@
             }
         }
 
+        // ===== ADMIN AUTHENTICATION =====
+        let isAdminAuthenticated = false;
+        const ADMIN_PASSWORD = "ITSBUBBA"; // The secret password
+
+        function showAdminPasswordPrompt() {
+            const modal = document.getElementById('adminPasswordModal');
+            const input = document.getElementById('adminPasswordInput');
+            const error = document.getElementById('adminPasswordError');
+
+            modal.classList.add('active');
+            input.value = '';
+            error.style.display = 'none';
+
+            // Focus the input
+            setTimeout(() => input.focus(), 100);
+        }
+
+        function closeAdminPasswordPrompt() {
+            const modal = document.getElementById('adminPasswordModal');
+            modal.classList.remove('active');
+        }
+
+        function handleAdminPasswordEnter(event) {
+            if (event.key === 'Enter') {
+                verifyAdminPassword();
+            }
+        }
+
+        function verifyAdminPassword() {
+            const input = document.getElementById('adminPasswordInput');
+            const error = document.getElementById('adminPasswordError');
+            const enteredPassword = input.value;
+
+            if (enteredPassword === ADMIN_PASSWORD) {
+                // Password correct!
+                isAdminAuthenticated = true;
+
+                // Show success message
+                error.textContent = '✓ Access Granted!';
+                error.style.color = '#00ff00';
+                error.style.textShadow = '0 0 10px #00ff00';
+                error.style.display = 'block';
+
+                // Show admin tab
+                const adminTab = document.getElementById('adminTab');
+                adminTab.style.display = 'inline-block';
+                adminTab.style.animation = 'fadeIn 0.5s ease';
+
+                // Store admin session (will persist until page reload for security)
+                sessionStorage.setItem('adminAccess', 'true');
+
+                // Close modal after short delay
+                setTimeout(() => {
+                    closeAdminPasswordPrompt();
+
+                    // Automatically switch to admin tab
+                    switchTab('admin');
+
+                    // Show welcome notification
+                    showAdminWelcome();
+                }, 800);
+
+            } else {
+                // Password incorrect
+                error.textContent = '✗ Access Denied - Invalid Password';
+                error.style.color = '#ff6b6b';
+                error.style.textShadow = '0 0 10px #ff6b6b';
+                error.style.display = 'block';
+
+                // Shake the box
+                const box = document.querySelector('.admin-password-box');
+                box.style.animation = 'none';
+                setTimeout(() => {
+                    box.style.animation = 'shake 0.5s';
+                }, 10);
+
+                // Clear input
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function showAdminWelcome() {
+            // Create a temporary welcome message
+            const welcome = document.createElement('div');
+            welcome.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 255, 0, 0.2);
+                backdrop-filter: blur(20px);
+                border: 2px solid rgba(0, 255, 0, 0.5);
+                border-radius: 20px;
+                padding: 40px 60px;
+                z-index: 4000;
+                text-align: center;
+                color: white;
+                font-size: 2em;
+                font-weight: bold;
+                text-shadow: 0 0 20px #00ff00;
+                animation: fadeIn 0.3s ease;
+            `;
+            welcome.innerHTML = `
+                <div>🔓 ADMIN ACCESS GRANTED</div>
+                <div style="font-size: 0.5em; margin-top: 10px; opacity: 0.8;">Welcome to the control panel</div>
+            `;
+            document.body.appendChild(welcome);
+
+            setTimeout(() => {
+                welcome.style.animation = 'fadeOut 0.3s ease';
+                setTimeout(() => welcome.remove(), 300);
+            }, 2000);
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        // Check if admin session exists on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('adminAccess') === 'true') {
+                isAdminAuthenticated = true;
+                document.getElementById('adminTab').style.display = 'inline-block';
+            }
+        });
+
+        // ===== ADMIN PANEL FEATURES =====
+
+        // Chat Moderation Functions
+        function clearAllMessages() {
+            if (!confirm('Are you sure you want to delete ALL chat messages? This cannot be undone!')) {
+                return;
+            }
+
+            database.ref('messages').remove()
+                .then(() => {
+                    alert('✓ All messages have been cleared!');
+                    // Also clear locally displayed messages
+                    document.getElementById('chatMessages').innerHTML = '';
+                })
+                .catch((error) => {
+                    alert('Error clearing messages: ' + error.message);
+                });
+        }
+
+        function broadcastAdminMessage() {
+            const message = document.getElementById('adminBroadcastInput').value.trim();
+            if (!message) {
+                alert('Please enter a message to broadcast');
+                return;
+            }
+
+            const adminMsg = {
+                user: '🔐 ADMIN',
+                text: message,
+                timestamp: Date.now(),
+                isAdmin: true
+            };
+
+            database.ref('messages').push(adminMsg)
+                .then(() => {
+                    document.getElementById('adminBroadcastInput').value = '';
+                    alert('✓ Admin message broadcasted!');
+                })
+                .catch((error) => {
+                    alert('Error sending message: ' + error.message);
+                });
+        }
+
+        function deleteSpecificMessage() {
+            const messageId = document.getElementById('deleteMessageId').value.trim();
+            if (!messageId) {
+                alert('Please enter a message ID');
+                return;
+            }
+
+            database.ref('messages/' + messageId).remove()
+                .then(() => {
+                    alert('✓ Message deleted successfully!');
+                    document.getElementById('deleteMessageId').value = '';
+                })
+                .catch((error) => {
+                    alert('Error deleting message: ' + error.message);
+                });
+        }
+
+        function refreshChatStats() {
+            database.ref('messages').once('value', (snapshot) => {
+                const count = snapshot.numChildren();
+                alert(`Total messages in database: ${count}`);
+            });
+        }
+
+        // User Management Functions
+        function kickUser() {
+            const email = document.getElementById('kickUserEmail').value.trim();
+            if (!email) {
+                alert('Please enter a user email');
+                return;
+            }
+
+            if (confirm(`Kick user: ${email}? They will be disconnected.`)) {
+                // Remove user from online presence
+                database.ref('presence').orderByChild('email').equalTo(email).once('value', (snapshot) => {
+                    snapshot.forEach((childSnapshot) => {
+                        childSnapshot.ref.remove();
+                    });
+                });
+
+                alert(`✓ User ${email} has been kicked!`);
+                document.getElementById('kickUserEmail').value = '';
+            }
+        }
+
+        function loadOnlineUsers() {
+            database.ref('presence').on('value', (snapshot) => {
+                const usersList = document.getElementById('onlineUsersList');
+                const users = [];
+
+                snapshot.forEach((childSnapshot) => {
+                    const userData = childSnapshot.val();
+                    users.push(userData);
+                });
+
+                if (users.length === 0) {
+                    usersList.innerHTML = '<p style="color: rgba(255,255,255,0.5);">No users currently online</p>';
+                } else {
+                    usersList.innerHTML = users.map((user, index) => `
+                        <div style="padding: 8px; margin: 5px 0; background: rgba(255,255,255,0.05); border-radius: 6px; border-left: 3px solid #4CAF50;">
+                            <strong style="color: #4CAF50;">${index + 1}.</strong>
+                            <span style="color: white;">${user.username || user.email}</span>
+                            <span style="color: rgba(255,255,255,0.6); font-size: 0.85em; margin-left: 10px;">(${user.email})</span>
+                        </div>
+                    `).join('');
+                }
+            });
+        }
+
+        function kickAllUsers() {
+            if (!confirm('⚠️ WARNING: This will disconnect ALL users! Continue?')) {
+                return;
+            }
+
+            database.ref('presence').remove()
+                .then(() => {
+                    alert('✓ All users have been kicked!');
+                })
+                .catch((error) => {
+                    alert('Error: ' + error.message);
+                });
+        }
+
+        function reloadAllSessions() {
+            if (!confirm('This will force reload all connected clients. Continue?')) {
+                return;
+            }
+
+            // Send a reload signal via database
+            database.ref('system/forceReload').set({
+                timestamp: Date.now(),
+                triggered: true
+            });
+
+            alert('✓ Reload signal sent to all clients!');
+
+            // Listen for reload signals (add this to global scope)
+            database.ref('system/forceReload').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data && data.triggered && !isAdminAuthenticated) {
+                    location.reload();
+                }
+            });
+        }
+
+        // Site Control Functions
+        let maintenanceMode = false;
+
+        function toggleMaintenanceMode() {
+            maintenanceMode = !maintenanceMode;
+            const btn = document.getElementById('maintenanceToggle');
+            const status = document.getElementById('maintenanceStatus');
+
+            if (maintenanceMode) {
+                btn.textContent = '✅ Disable Maintenance Mode';
+                btn.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)';
+                status.textContent = 'Status: MAINTENANCE MODE ACTIVE';
+                status.style.color = '#ff6b6b';
+
+                // Store in database
+                database.ref('system/maintenance').set(true);
+            } else {
+                btn.textContent = '🔧 Enable Maintenance Mode';
+                btn.style.background = 'linear-gradient(135deg, #ff9800 0%, #f57c00 100%)';
+                status.textContent = 'Status: Site is operational';
+                status.style.color = 'rgba(255,255,255,0.7)';
+
+                database.ref('system/maintenance').set(false);
+            }
+        }
+
+        function toggleSiteFeature(feature) {
+            const checkbox = document.getElementById(`toggle${feature.charAt(0).toUpperCase() + feature.slice(1)}`);
+            const isEnabled = checkbox.checked;
+
+            // Store in database
+            database.ref(`system/features/${feature}`).set(isEnabled);
+
+            alert(`${feature.charAt(0).toUpperCase() + feature.slice(1)} ${isEnabled ? 'enabled' : 'disabled'}!`);
+        }
+
+        // Advanced Admin Tools
+        function viewDatabaseDump() {
+            database.ref().once('value', (snapshot) => {
+                const data = snapshot.val();
+                const dump = JSON.stringify(data, null, 2);
+
+                // Create a modal to show the dump
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.95);
+                    z-index: 5000;
+                    padding: 40px;
+                    overflow: auto;
+                `;
+                modal.innerHTML = `
+                    <div style="background: #000; color: #00ff00; font-family: 'Courier New', monospace; padding: 20px; border-radius: 10px; border: 2px solid #00ff00;">
+                        <h2 style="color: #00ff00; margin-bottom: 20px;">📊 DATABASE DUMP</h2>
+                        <button onclick="this.parentElement.parentElement.remove()" style="position: absolute; top: 50px; right: 50px; padding: 10px 20px; background: #00ff00; color: #000; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Close</button>
+                        <pre style="white-space: pre-wrap; word-wrap: break-word; font-size: 0.9em; line-height: 1.5;">${dump}</pre>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            });
+        }
+
+        function exportUserData() {
+            database.ref('users').once('value', (snapshot) => {
+                const users = snapshot.val();
+                const dataStr = JSON.stringify(users, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = `users_export_${Date.now()}.json`;
+                link.click();
+
+                alert('✓ User data exported successfully!');
+            });
+        }
+
+        function viewSystemLogs() {
+            const logs = [
+                `[${new Date().toISOString()}] System initialized`,
+                `[${new Date().toISOString()}] Admin panel accessed`,
+                `[${new Date().toISOString()}] Total users: ${Object.keys(localStorage).filter(k => k.startsWith('user_')).length}`,
+                `[${new Date().toISOString()}] Firebase connected: ${database ? 'Yes' : 'No'}`,
+                `[${new Date().toISOString()}] Session: ${sessionStorage.getItem('adminAccess') ? 'Admin' : 'User'}`
+            ];
+
+            alert('SYSTEM LOGS:\n\n' + logs.join('\n'));
+        }
+
+        function runDiagnostics() {
+            const results = [
+                '🔍 Running system diagnostics...\n',
+                `✓ Firebase Status: ${database ? 'Connected' : 'Disconnected'}`,
+                `✓ LocalStorage: ${localStorage ? 'Available' : 'Unavailable'}`,
+                `✓ SessionStorage: ${sessionStorage ? 'Available' : 'Unavailable'}`,
+                `✓ Current User: ${currentUser ? currentUser.email : 'None'}`,
+                `✓ Admin Access: ${isAdminAuthenticated ? 'Yes' : 'No'}`,
+                `✓ Browser: ${navigator.userAgent.split(' ').pop()}`,
+                `✓ Online Status: ${navigator.onLine ? 'Online' : 'Offline'}`,
+                `✓ Screen: ${window.innerWidth}x${window.innerHeight}`,
+                '\n✅ All systems operational!'
+            ];
+
+            alert(results.join('\n'));
+        }
+
+        // Initialize admin features when admin tab is accessed
+        function initAdminPanel() {
+            loadOnlineUsers();
+        }
+
         function switchTab(tabName) {
             // Prevent switching to games or chatroom if not logged in
             if ((tabName === 'games' || tabName === 'chatroom') && !currentUser) {
                 alert('Please sign in first to access this feature.');
                 return;
             }
-            
+
+            // Prevent switching to admin if not authenticated
+            if (tabName === 'admin' && !isAdminAuthenticated) {
+                alert('⚠️ Unauthorized access! Admin authentication required.');
+                showAdminPasswordPrompt();
+                return;
+            }
+
             // Hide all tabs
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
+
             // Remove active from all buttons
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            
+
             // Show selected tab
             document.getElementById(tabName).classList.add('active');
-            
+
             // Add active to clicked button
-            event.target.classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            } else {
+                // Manual activation
+                document.querySelector(`[onclick="switchTab('${tabName}')"]`)?.classList.add('active');
+            }
+
+            // Initialize admin panel if accessing admin tab
+            if (tabName === 'admin') {
+                initAdminPanel();
+            }
         }
 
         // Close modal when clicking outside
