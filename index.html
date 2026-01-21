@@ -3495,6 +3495,18 @@
         const ADMIN_PASSWORD = "ITSBUBBA"; // The secret password
 
         function showAdminPasswordPrompt() {
+            // Check if user is logged in
+            if (!currentUser) {
+                alert('⚠️ Please sign in first to access admin features.');
+                return;
+            }
+
+            // Check if user is authorized for admin
+            if (currentUser.email !== 'nashlecroy@gmail.com') {
+                alert('⚠️ ACCESS DENIED\n\nOnly nashlecroy@gmail.com can access the admin panel.');
+                return;
+            }
+
             const modal = document.getElementById('adminPasswordModal');
             const input = document.getElementById('adminPasswordInput');
             const error = document.getElementById('adminPasswordError');
@@ -3522,6 +3534,25 @@
             const input = document.getElementById('adminPasswordInput');
             const error = document.getElementById('adminPasswordError');
             const enteredPassword = input.value;
+
+            // CRITICAL: Only nashlecroy@gmail.com can access admin panel
+            if (!currentUser || currentUser.email !== 'nashlecroy@gmail.com') {
+                error.textContent = '✗ ACCESS DENIED - Only nashlecroy@gmail.com can access admin';
+                error.style.color = '#ff6b6b';
+                error.style.textShadow = '0 0 10px #ff6b6b';
+                error.style.display = 'block';
+
+                // Shake the box
+                const box = document.querySelector('.admin-password-box');
+                box.style.animation = 'none';
+                setTimeout(() => {
+                    box.style.animation = 'shake 0.5s';
+                }, 10);
+
+                input.value = '';
+                input.focus();
+                return;
+            }
 
             if (enteredPassword === ADMIN_PASSWORD) {
                 // Password correct!
@@ -3612,9 +3643,17 @@
 
         // Check if admin session exists on page load
         window.addEventListener('DOMContentLoaded', () => {
-            if (sessionStorage.getItem('adminAccess') === 'true') {
-                isAdminAuthenticated = true;
-                document.getElementById('adminTab').style.display = 'inline-block';
+            // Only restore admin session if user is nashlecroy@gmail.com
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                const user = JSON.parse(savedUser);
+                if (sessionStorage.getItem('adminAccess') === 'true' && user.email === 'nashlecroy@gmail.com') {
+                    isAdminAuthenticated = true;
+                    document.getElementById('adminTab').style.display = 'inline-block';
+                } else if (sessionStorage.getItem('adminAccess') === 'true' && user.email !== 'nashlecroy@gmail.com') {
+                    // Clear invalid admin session
+                    sessionStorage.removeItem('adminAccess');
+                }
             }
         });
 
